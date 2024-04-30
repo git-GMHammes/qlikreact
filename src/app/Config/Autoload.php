@@ -90,5 +90,23 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = [];
+    public $helpers = [
+        'form',
+        'url',
+        'html',
+        'text',
+        'date',
+        'myUCI',
+        'cookie',
+        'myIcon',
+        'myChar',
+        'myPrint',
+        'myEndPoint',
+        'myDate',
+        'myIdUFF',
+        'myCookie',
+        'myArray',
+        'myEmulaSSO',
+        'myTerminalTraslation'
+    ];
 }

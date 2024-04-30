@@ -92,3 +92,43 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+if ($_SERVER["SERVER_PORT"] == '80') {
+    if (
+        $_SERVER['SERVER_NAME'] == 'localhost' ||
+        $_SERVER['SERVER_NAME'] == '10.11.62.138'
+    ) {
+        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "dev_docker");
+    }
+} elseif (
+    $_SERVER["SERVER_PORT"] == '443'
+) {
+    // SSL
+} elseif (
+    $_SERVER["SERVER_PORT"] == '5607'
+) {
+    if (
+        $_SERVER['SERVER_NAME'] == 'localhost' ||
+        $_SERVER['SERVER_NAME'] == '127.0.0.1' ||
+        $_SERVER['SERVER_NAME'] == '10.146.84.140' ||
+        $_SERVER['SERVER_NAME'] == '10.11.62.138'
+    ) {
+        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "dev_docker");
+    }
+} else {
+    exit('Linha 239: www\projeto\src\app\Config\Constants.php. Não foi possível encontrar o ambinete do sistema. -> ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"]);
+}
+
+#
+# Modo Debug MyPrint
+# 
+if (
+    $_SERVER['SERVER_NAME'] == 'localhost'
+    || $_SERVER['SERVER_NAME'] == '127.0.0.1'
+    || $_SERVER['SERVER_NAME'] == '10.146.84.140'
+) {
+    # Ambiente DEV
+    defined('DEBUG_MY_PRINT') or define('DEBUG_MY_PRINT', true);
+} else {
+    defined('DEBUG_MY_PRINT') or define('DEBUG_MY_PRINT', false);
+}

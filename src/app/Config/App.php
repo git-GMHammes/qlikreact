@@ -199,4 +199,43 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+
+    public function __construct()
+    {
+        // echo "<br>";
+        // echo $_SERVER["SERVER_PORT"];
+        // echo "<br>";
+        // echo $_SERVER['SERVER_NAME'];
+        // echo "<br>";
+        if (
+            $_SERVER["SERVER_PORT"] == '80'
+        ) {
+            if (
+                $_SERVER['SERVER_NAME'] == 'localhost' ||
+                $_SERVER['SERVER_NAME'] == '127.0.0.1' ||
+                $_SERVER['SERVER_NAME'] == '10.146.84.140' ||
+                $_SERVER['SERVER_NAME'] == '10.11.62.148'
+            ) {
+                $this->baseURL = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . '/intranetdegase/src/public';
+            }
+        } elseif (
+            $_SERVER["SERVER_PORT"] == '443'
+        ) {
+            // SSL
+        } elseif (
+            $_SERVER["SERVER_PORT"] == '5607'
+        ) {
+            if (
+                $_SERVER['SERVER_NAME'] == 'localhost' ||
+                $_SERVER['SERVER_NAME'] == '127.0.0.1' ||
+                $_SERVER['SERVER_NAME'] == '10.146.84.140' ||
+                $_SERVER['SERVER_NAME'] == '10.11.62.148'
+            ) {
+                $this->baseURL = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"];
+            }
+        } else {
+            exit(' Linha: 251: src\app\Config\App.php / O Sistema não reconheceu o Servidor ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ' no APP.php');
+        }
+    }
 }
