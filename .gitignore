@@ -1,0 +1,14 @@
+mysql-data/*
+src/public/writable/*
+src/writable/debugbar/*
+src/writable/logs/*
+src/writable/session/*
+src/writable/session/*
+src/writable/session/*
+src/writable/logs/*
+*.log
+Documentation/ViewsMySQL/view_sgtp_tar_resp_proj.sql
+sql/20231019.sql
+sql/20231019.sql
+Documentation/Estrutura e env.txt
+src/.env

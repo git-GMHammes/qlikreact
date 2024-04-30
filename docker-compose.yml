@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  php81-apache:
+    build: .
+    image: php:8.1-apache
+    container_name: qlikreact-apache
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - 5607:80"
+    depends_on:
+      - mysql80
+  
+  php81-websocket:
+    build: ./websocket_server
+    image: php:8.1-cli
+    container_name: php81-websocket
+    volumes:
+      - ./websocket_server:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - 5609:4109"
+    depends_on:
+      - mysql80
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: qlikreact-phpmyadmin
+    environment:
+      PMA_HOST: mysql80
+      PMA_USER: user
+      PMA_PASSWORD: userpass
+      PMA_DATABASE: db
+    ports:
+      - 5610:80"
+    depends_on:
+      - mysql80
+  
+  adminer:
+    image: adminer
+    container_name: qlikreact-adminer
+    ports:
+      - 5611:8080"
+    depends_on:
+      - mysql80
+  
+  mysql80:
+    image: mysql:8.0
+    container_name: qlikreact-mysql80
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=userpass
+      - TZ=America/Sao_Paulo
+    ports:
+      - "3356:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql-data:
