@@ -10,12 +10,12 @@
 <body>
     <pre>
         <?php
-        echo "<br /> hostname " . $hostname = setBase64('');
-        echo "<br /> username " . $username = setBase64('');
-        echo "<br /> password " . $password = setBase64('');
-        echo "<br /> database " . $database = setBase64('');
-        echo "<br /> DBDriver " . $DBDriver = setBase64('');
-        echo "<br /> port " . $port = setBase64('');
+        echo "<br /> hostname " . $hostname = setBase64('mysql80');
+        echo "<br /> username " . $username = setBase64('root');
+        echo "<br /> password " . $password = setBase64('rootpass');
+        echo "<br /> database " . $database = setBase64('db');
+        echo "<br /> DBDriver " . $DBDriver = setBase64('MySQLi');
+        echo "<br /> port " . $port = setBase64(3306);
         ?>
     </pre>
     #

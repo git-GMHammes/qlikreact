@@ -7,14 +7,14 @@ use CodeIgniter\API\ResponseTrait;
 // use App\Models\NomeModel;
 use Exception;
 
-class LicitacoesEndpointController extends ResourceController
-{ // src\app\Controllers\LicitacoesEndpointController.php
+class LicitacaoEndpointController extends ResourceController
+{ // src\app\Controllers\LicitacaoEndpointController.php
     use ResponseTrait;
-    private $template = 'projeto_view/template/main';
-    private $message = 'projeto_view/message';
-    private $footer = 'projeto_view/footer';
-    private $head = 'projeto_view/head';
-    private $menu = 'projeto_view/menu';
+    private $template = 'qlikreact/template/main';
+    private $message = 'qlikreact/message';
+    private $footer = 'qlikreact/footer';
+    private $head = 'qlikreact/head';
+    private $menu = 'qlikreact/menu';
     private $ModelResponse;
     private $uri;
     private $token;
@@ -264,21 +264,29 @@ class LicitacoesEndpointController extends ResourceController
         $getVar_page = $request->getVar('page');
         $processRequest = (array)$request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
-        $id = (isset($processRequest['id'])) ? ('/' . $processRequest['id']) : ('/' . $parameter);
+        if (isset($processRequest['id'])) {
+            $id = '/' . $processRequest['id'];
+        } elseif ($parameter !== NULL) {
+            $id = '/' . $parameter;
+        } else {
+            $id = NULL;
+        }
         // $processRequest = eagarScagaire($processRequest);
         #
         $loadView = array(
             $this->head,
             $this->menu,
             $this->message,
+            'qlikreact/licitacao/listar',
             $this->footer,
         );
         try {
             # URI da API                                                                                                          
-            $endPoint['objeto'] = myEndPoint('index.php/projeto/endereco/api/verbo', '123');
-            $requestJSONform['objeto'] = isset($endPoint['objeto']['result']) ? $endPoint['objeto']['result'] : array();
+            $endPoint['licitacao'] = myEndPoint('index.php/qlikreact/licitacao/api/listar' . $id, '123');
+            $requestJSONform['licitacao'] = isset($endPoint['licitacao']['result']) ? $endPoint['licitacao']['result'] : array();
+            // myPrint($requestJSONform, 'src\app\Controllers\LicitacoesEndpointController.php');
             # Configuração Paginate
-            $totalItems = count($requestJSONform['objeto']);
+            $totalItems = count($requestJSONform['licitacao']);
             $itemsPerPage = 10; // Itens por página
             // $totalPages = ceil($totalItems / $itemsPerPage);
             $currentPage = isset($getVar_page) ? $getVar_page : 1;
@@ -287,8 +295,8 @@ class LicitacoesEndpointController extends ResourceController
             $pager->setPath('intranet/painel/endpoint/master');
             $pager->makeLinks($currentPage, $itemsPerPage, $totalItems);
             # Finalização Paginate
-            $requestJSONform['objeto']['list'] = $this->paginateArray($requestJSONform['objeto'], $currentPage, $itemsPerPage);
-            $requestJSONform['objeto']['pager'] = $pager;
+            $requestJSONform['licitacao']['list'] = $this->paginateArray($requestJSONform['licitacao'], $currentPage, $itemsPerPage);
+            $requestJSONform['licitacao']['pager'] = $pager;
             #
             $requestJSONform = array();
             $apiRespond = [
@@ -339,8 +347,8 @@ class LicitacoesEndpointController extends ResourceController
         if ($json == 1) {
             return $apiRespond;
         } else {
-            return $apiRespond;
-            // return view($this->template, $apiRespond);
+            // return $apiRespond;
+            return view($this->template, $apiRespond);
         }
     }
 
