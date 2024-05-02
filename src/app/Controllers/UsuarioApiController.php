@@ -8,7 +8,7 @@ use CodeIgniter\API\ResponseTrait;
 use Exception;
 
 class UsuarioApiController extends ResourceController
-{
+{ // src\app\Controllers\UsuarioApiController.php
     use ResponseTrait;
     private $ModelResponse;
     private $dbFields;

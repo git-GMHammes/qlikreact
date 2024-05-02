@@ -50,6 +50,68 @@ class Database extends Config
         ],
     ];
 
+    /**
+     * The dev_docker database connection.
+     *
+     * @var array<string, mixed>
+     */
+    public array $dev_docker = [
+        'DSN'          => '',
+        'hostname'     => ED9EE1E4CC5CD92C322E125509EC8320,
+        'username'     => D0C54946F40F15EEEEF9966332EAAD1D,
+        'password'     => C5F0D3F2D2DC4E7250341457D4AC72B4,
+        'database'     => E0C2D38CBB08E7BA5F53B3480987776E,
+        'DBDriver'     => E127BD6190ABB075312B371738FDE395,
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => C510E1501A395D5EFD8C52EEE0658E9F,
+        'numberNative' => false,
+        'dateFormat'   => [
+            'date'     => 'Y-m-d',
+            'datetime' => 'Y-m-d H:i:s',
+            'time'     => 'H:i:s',
+        ],
+    ];
+
+    /**
+     * The hml_qlik database connection.
+     *
+     * @var array<string, mixed>
+     */
+    public array $hml_qlik = [
+        'DSN'          => '',
+        'hostname'     => E1FCB69453DBFA454D712B6871150632,
+        'username'     => FCB08FCEF3ED306A374491F84BCEDDD7,
+        'password'     => C397FED4A18313BEF4A52458D8657739,
+        'database'     => D994F5B2C031D49B626DE169B4329658,
+        'DBDriver'     => BF41BB7AF0CA86E72DD72AB88F9B7DDE,
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => AA4652BE126F5C4657F4B4EF1FCC7258,
+        'numberNative' => false,
+        'dateFormat'   => [
+            'date'     => 'Y-m-d',
+            'datetime' => 'Y-m-d H:i:s',
+            'time'     => 'H:i:s',
+        ],
+    ];
+
     //    /**
     //     * Sample database connection for SQLite3.
     //     *

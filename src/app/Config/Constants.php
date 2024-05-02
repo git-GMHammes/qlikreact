@@ -14,7 +14,21 @@
  | existing namespaces of App\* namespaced-classes.
  */
 defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
-
+#
+$varD1 = rota35('bG9jYWxob3N0');
+$varD2 = rota35('cm9vdA==');
+$varD3 = rota35('');
+$varD4 = rota35('ZGI=');
+$varD5 = rota35('TXlTUUxp');
+$varD6 = rota35('MzMwNg==');
+# "<br />".
+$varH1 = rota35('MTAuMTEuNjMuMTM3');
+$varH2 = rota35('UUxJS0FETUlO');
+$varH3 = rota35('UWxpb2h2QDg2NQ==');
+$varH4 = rota35('UUxJS0FETUlO');
+$varH5 = rota35('TXlTUUxp');
+$varH6 = rota35('MzMwNg==');
+#
 /*
  | --------------------------------------------------------------------------
  | Composer Path
@@ -93,12 +107,27 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
+defined('ED9EE1E4CC5CD92C322E125509EC8320') or define('ED9EE1E4CC5CD92C322E125509EC8320', "{$varD1}");
+defined('D0C54946F40F15EEEEF9966332EAAD1D') or define('D0C54946F40F15EEEEF9966332EAAD1D', "{$varD2}");
+defined('C5F0D3F2D2DC4E7250341457D4AC72B4') or define('C5F0D3F2D2DC4E7250341457D4AC72B4', "{$varD3}");
+defined('E0C2D38CBB08E7BA5F53B3480987776E') or define('E0C2D38CBB08E7BA5F53B3480987776E', "{$varD4}");
+defined('E127BD6190ABB075312B371738FDE395') or define('E127BD6190ABB075312B371738FDE395', "{$varD5}");
+defined('C510E1501A395D5EFD8C52EEE0658E9F') or define('C510E1501A395D5EFD8C52EEE0658E9F', "{$varD6}");
+#
+defined('E1FCB69453DBFA454D712B6871150632') or define('E1FCB69453DBFA454D712B6871150632', "{$varH1}");
+defined('FCB08FCEF3ED306A374491F84BCEDDD7') or define('FCB08FCEF3ED306A374491F84BCEDDD7', "{$varH2}");
+defined('C397FED4A18313BEF4A52458D8657739') or define('C397FED4A18313BEF4A52458D8657739', "{$varH3}");
+defined('D994F5B2C031D49B626DE169B4329658') or define('D994F5B2C031D49B626DE169B4329658', "{$varH4}");
+defined('BF41BB7AF0CA86E72DD72AB88F9B7DDE') or define('BF41BB7AF0CA86E72DD72AB88F9B7DDE', "{$varH5}");
+defined('AA4652BE126F5C4657F4B4EF1FCC7258') or define('AA4652BE126F5C4657F4B4EF1FCC7258', "{$varH6}");
+
+$variavel_banco = "dev_docker";
 if ($_SERVER["SERVER_PORT"] == '80') {
     if (
         $_SERVER['SERVER_NAME'] == 'localhost' ||
         $_SERVER['SERVER_NAME'] == '10.11.62.138'
     ) {
-        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "dev_docker");
+        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "{$variavel_banco}");
     }
 } elseif (
     $_SERVER["SERVER_PORT"] == '443'
@@ -113,7 +142,7 @@ if ($_SERVER["SERVER_PORT"] == '80') {
         $_SERVER['SERVER_NAME'] == '10.146.84.140' ||
         $_SERVER['SERVER_NAME'] == '10.11.62.138'
     ) {
-        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "dev_docker");
+        defined('GRUPO_DB_CONFIG') or define('GRUPO_DB_CONFIG', "{$variavel_banco}");
     }
 } else {
     exit('Linha 239: www\projeto\src\app\Config\Constants.php. Não foi possível encontrar o ambinete do sistema. -> ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"]);
@@ -131,4 +160,9 @@ if (
     defined('DEBUG_MY_PRINT') or define('DEBUG_MY_PRINT', true);
 } else {
     defined('DEBUG_MY_PRINT') or define('DEBUG_MY_PRINT', false);
+}
+#
+function rota35($parameter)
+{
+    return base64_decode($parameter);
 }

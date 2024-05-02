@@ -7,8 +7,8 @@ use CodeIgniter\API\ResponseTrait;
 // use App\Models\NomeModel;
 use Exception;
 
-class EtapaEndpointController extends ResourceController
-{ // src\app\Controllers\EtapaEndpointController.php
+class DocumentacaoEndpointController extends ResourceController
+{ // src\app\Controllers\DocumentacaoEndpointController.php
     use ResponseTrait;
     private $template = 'projeto_view/template/main';
     private $message = 'projeto_view/message';

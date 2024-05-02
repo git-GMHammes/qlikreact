@@ -7,8 +7,8 @@ use CodeIgniter\API\ResponseTrait;
 // use App\Models\NomeModel;
 use Exception;
 
-class IntegraApiController extends ResourceController
-{ // src\app\Controllers\IntegraApiController.php
+class DocumentacaoApiController extends ResourceController
+{ // src\app\Controllers\DocumentacaoApiController.php
     use ResponseTrait;
     private $ModelResponse;
     private $dbFields;
@@ -286,12 +286,11 @@ class IntegraApiController extends ResourceController
             // return redirect()->back();
         }
     }
-
     # route POST /www/sigla/rota
     # route GET /www/sigla/rota
     # Informação sobre o controller
     # retorno do controller [JSON]
-    public function dbread($parameter = NULL)
+    public function dbRead($parameter = NULL)
     {
         # Parâmentros para receber um POST
         $request = service('request');
@@ -387,7 +386,7 @@ class IntegraApiController extends ResourceController
         // $processRequest = eagarScagaire($processRequest);
         #
         try {
-            // DELETE LOGICO
+            // Colocar logica de UPDATE para DELETE LOGICO
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -442,7 +441,7 @@ class IntegraApiController extends ResourceController
         // $processRequest = eagarScagaire($processRequest);
         #
         try {
-            // DELETE DEFINITICO
+            // DELETE PERMANENTE
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',

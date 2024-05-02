@@ -8,7 +8,7 @@ use CodeIgniter\API\ResponseTrait;
 use Exception;
 
 class LicitacoesApiController extends ResourceController
-{
+{ // src\app\Controllers\LicitacoesApiController.php
     use ResponseTrait;
     private $ModelResponse;
     private $dbFields;

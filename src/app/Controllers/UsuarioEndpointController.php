@@ -7,8 +7,8 @@ use CodeIgniter\API\ResponseTrait;
 // use App\Models\NomeModel;
 use Exception;
 
-class EtapaEndpointController extends ResourceController
-{ // src\app\Controllers\EtapaEndpointController.php
+class UsuarioEndpointController extends ResourceController
+{ // src\app\Controllers\UsuarioEndpointController.php
     use ResponseTrait;
     private $template = 'projeto_view/template/main';
     private $message = 'projeto_view/message';
@@ -148,7 +148,7 @@ class EtapaEndpointController extends ResourceController
         );
         return (NULL);
     }
-    
+
     private function paginateArray($data, $page, $perPage)
     {
         // Calcula o offset
