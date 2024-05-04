@@ -302,10 +302,14 @@ class LicitacaoApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $processRequest = (array)$request->getVar();
+        // myPrint($processRequest, 'src\app\Controllers\LicitacaoApiController.php');
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
         try {
+            if(isset($processRequest)){
+                
+            }
             if (isset($processRequest['id'])) {
                 # CRUD da Model
                 // $dbResponse[] = $this->ModelResponse
@@ -373,25 +377,25 @@ class LicitacaoApiController extends ResourceController
                     // Você pode adicionar campos comentados anteriormente se forem relevantes
                     // 'method' => '__METHOD__',
                     // 'function' => '__FUNCTION__',
-                    ]
-                ];
-                $response = $this->response->setJSON($apiRespond, 201);
-            } catch (\Exception $e) {
-                $apiRespond = array(
-                    'message' => array('danger'=>$e->getMessage()),
-                    'page_title' => 'Application title',
-                    'getURI' => $this->uri->getSegments(),
-                );
-                // $this->returnFunction(array($e->getMessage()), 'danger',);
-                $response = $this->response->setJSON($apiRespond, 500);
-            }
-            if ($json == 1) {
-                return $response;
-                // return redirect()->back();
-                // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
-            } else {
-                return $response;
-            }
+                ]
+            ];
+            $response = $this->response->setJSON($apiRespond, 201);
+        } catch (\Exception $e) {
+            $apiRespond = array(
+                'message' => array('danger' => $e->getMessage()),
+                'page_title' => 'Application title',
+                'getURI' => $this->uri->getSegments(),
+            );
+            // $this->returnFunction(array($e->getMessage()), 'danger',);
+            $response = $this->response->setJSON($apiRespond, 500);
+        }
+        if ($json == 1) {
+            return $response;
+            // return redirect()->back();
+            // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
+        } else {
+            return $response;
+        }
     }
 
     # route POST /www/qlikreact/licitacao/api/listar/(:any)

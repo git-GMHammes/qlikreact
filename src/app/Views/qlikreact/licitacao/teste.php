@@ -1,20 +1,3 @@
-<?php
-$parametros_backend = array(
-    'url' => base_url() . 'index.php/qlikreact/licitacao/api/listar',
-    'post' => base_url() . 'index.php/qlikreact/licitacao/api/ordem',
-    'getURI' => array(
-        "index.php",
-        "qlikreact",
-        "licitacao",
-        "api",
-        "listar"
-    )
-);
-//myPrint($result, 'src\app\Views\qlikreact\licitacao\listar.php');
-?>
-
-<div class="App_listar_licitacao" data-result='<?php echo json_encode($parametros_backend); ?>'></div>
-
 <script type="text/babel">
     const AppListaLicitacao = () => {
         const [processos, setProcessos] = React.useState([]);
@@ -25,7 +8,7 @@ $parametros_backend = array(
         const parametros = JSON.parse(document.querySelector('.App_listar_licitacao').getAttribute('data-result'));
         const apiUrl = parametros.url;
         const postUrl = parametros.post;
-
+        
         React.useEffect(() => {
             fetch(apiUrl)
                 .then(response => {
@@ -49,36 +32,6 @@ $parametros_backend = array(
                     setLoading(false);
                 });
         }, []);
-
-        const alertStyle = {
-            padding: '0.25rem 0.5rem',
-            marginBottom: '0',
-            height: '30px',
-        };
-        
-        const visibility_hidden = {
-            visibility: 'hidden',
-            with: '5px',
-        };
-
-        const getEmojiForBidding = (pk_bidding) => {
-            const carinha = carinhas.find(car => car.pk_bidding === pk_bidding);
-            if (!carinha) return 'Desconhecido';  // Fallback caso não encontre uma correspondência
-            return getEmoji(carinha.emoji);
-        };
-
-        const getEmoji = (emoji) => {
-            switch (emoji) {
-                case 'emoji_smile_fill':
-                    return <div style={alertStyle} className="alert alert-success me-4" role="alert"><i className="bi bi-emoji-smile-fill"></i></div>;
-                case 'emoji_neutral_fill':
-                    return <div style={alertStyle} className="alert alert-danger me-4" role="alert"><i className="bi bi-emoji-neutral-fill"></i></div>;
-                case 'emoji_frown_fill':
-                    return <div style={alertStyle} className="alert alert-warning me-4" role="alert"><i className="bi bi-emoji-frown-fill"></i></div>;
-                default:
-                    return 'Desconhecido';
-            }
-        };
 
         const onDragStart = (e, index) => {
             e.dataTransfer.setData("dragIndex", index);
@@ -127,13 +80,13 @@ $parametros_backend = array(
                                     </div>
                                 </th>
                                 <th>Chave da Licitação</th>
-                                <th>Prazo foi atendido</th>
+                                <th>Prazo não cumprido</th>
                                 <th>Processo Eletrônico SEI</th>
-                                </tr>
-                                    </thead>
-                                    <tbody>
-                                    {processos.map((processo, index) => (
-                                        <tr key={index} draggable onDragOver={onDragOver} onDrop={(e) => onDrop(e, index)}>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {processos.map((processo, index) => (
+                                <tr key={index} draggable onDragOver={onDragOver} onDrop={(e) => onDrop(e, index)}>
                                     <td draggable="true" onDragStart={(e) => onDragStart(e, index)}>
                                         <i className="bi bi-grip-vertical"></i>
                                     </td>
@@ -144,7 +97,7 @@ $parametros_backend = array(
                                     </td>
                                     <td>
                                         <div className="d-flex justify-content-center">
-                                            <input type="text" className="form-control" id="setFormOrder" name="setFormOrder[]" value={index + 1+"|"+processo.pk_bidding} readOnly />
+                                            <input type="text" className="form-control" id="setFormOrder" name="setFormOrder" value={index + 1} readOnly />
                                         </div>
                                     </td>
                                     <td>{processo.bidding}</td>
@@ -159,7 +112,6 @@ $parametros_backend = array(
                             ))}
                         </tbody>
                     </table>
-                    <button type="submit" className="btn btn-primary">Salvar</button>
                 </form>
             </div>
         );

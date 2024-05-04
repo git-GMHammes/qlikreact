@@ -298,7 +298,6 @@ class LicitacaoEndpointController extends ResourceController
             $requestJSONform['licitacao']['list'] = $this->paginateArray($requestJSONform['licitacao'], $currentPage, $itemsPerPage);
             $requestJSONform['licitacao']['pager'] = $pager;
             #
-            $requestJSONform = array();
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -311,7 +310,7 @@ class LicitacaoEndpointController extends ResourceController
                 ],
                 // 'method' => '__METHOD__',
                 // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
+                'result' => $requestJSONform,
                 'loadView' => $loadView,
                 'metadata' => [
                     'page_title' => 'Application title',
