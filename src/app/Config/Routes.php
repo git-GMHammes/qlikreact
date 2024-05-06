@@ -8,10 +8,21 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', 'Home::index');
 // $routes->get('/', 'LicitacaoApiController::dbRead');
 $routes->addRedirect('/', 'qlikreact/licitacao/api/listar');
+
 $routes->group('qlikreact', function ($routes) {
-    # www/qlikreact/licitacao/(:any)
+    # www/qlikreact/feriado/(:any)
+    $routes->group('feriado', function ($routes) {
+        $routes->group('api', function ($routes) {
+            # www/qlikreact/feriado/api/listar/(:any)
+            $routes->get('listar', 'FeriadoController::dbRead');
+            $routes->get('listar/(:segment)', 'FeriadoController::dbRead/$1');
+            $routes->get('listar/(:any)', 'FeriadoController::dbRead/$1');
+            $routes->post('listar', 'FeriadoController::dbRead');
+            $routes->post('listar/(:any)', 'FeriadoController::dbRead/$1');
+        });
+    });
+    # www/qlikreact/api/(:any)
     $routes->group('licitacao', function ($routes) {
-        # www/qlikreact/api/(:any)
         $routes->group('api', function ($routes) {
             # www/qlikreact/licitacao/api/criar/(:any)
             $routes->get('criar', 'LicitacaoApiController::create_update');
