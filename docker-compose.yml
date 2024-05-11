@@ -4,24 +4,25 @@ services:
   php81-apache:
     build: .
     image: php:8.1-apache
-    container_name: qlikreact-apache
+    container_name: qlikreact-qlikreact-apache
     volumes:
-      - ./src:/var/www/html
+      - qlikreact-src:/var/www/html
     working_dir: /var/www/html
     ports:
-      - "5607:80"
+      - "5601:80"
     depends_on:
       - mysql80
+
 
   php81-websocket:
     build: ./websocket_server
     image: php:8.1-cli
-    container_name: php81-websocket
+    container_name: qlikreact-php81-websocket
     volumes:
-      - ./websocket_server:/var/www/html
+      - qlikreact-websocket_server:/var/www/html
     working_dir: /var/www/html
     ports:
-      - "5609:4109"
+      - "5602:5609"
     depends_on:
       - mysql80
 
@@ -34,7 +35,7 @@ services:
       PMA_PASSWORD: userpass
       PMA_DATABASE: db
     ports:
-      - "5610:80"
+      - "5603:80"
     depends_on:
       - mysql80
 
@@ -42,13 +43,13 @@ services:
     image: adminer
     container_name: qlikreact-adminer
     ports:
-      - "5611:8080"
+      - "5604:8080"
     depends_on:
       - mysql80
 
   mysql80:
     image: mysql:8.0
-    container_name: qlikreact-mysql80
+    container_name: qlikreact-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=db
@@ -58,8 +59,11 @@ services:
     ports:
       - "3356:3306"
     volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./mysql-init:/docker-entrypoint-initdb.d
+      - qlikreact-mysql-data:/var/lib/mysql
+      - qlikreact-mysql-init:/docker-entrypoint-initdb.d
 
 volumes:
-  mysql-data:
+  qlikreact-src:
+  qlikreact-websocket_server:
+  qlikreact-mysql-data:
+  qlikreact-mysql-init:

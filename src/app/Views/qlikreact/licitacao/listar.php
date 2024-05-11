@@ -85,7 +85,8 @@ $parametros_backend = array(
         };
 
         const onDragOver = (e) => {
-            e.preventDefault(); // Necessário para permitir o drop
+             // Necessário para permitir o drop
+            e.preventDefault();
         };
 
         const onDrop = (e, dropIndex) => {
@@ -93,8 +94,10 @@ $parametros_backend = array(
             const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"));
             const itemArrastado = processos[dragIndex];
             const itensAtualizados = [...processos];
-            itensAtualizados.splice(dragIndex, 1); // Remove o item da posição original
-            itensAtualizados.splice(dropIndex, 0, itemArrastado); // Insere o item na nova posição
+            // Remove o item da posição original
+            itensAtualizados.splice(dragIndex, 1); 
+            // Insere o item na nova posição
+            itensAtualizados.splice(dropIndex, 0, itemArrastado); 
             setProcessos(itensAtualizados);
         };
 
@@ -105,7 +108,7 @@ $parametros_backend = array(
         if (error) {
             return <p>Erro ao carregar dados: {error}</p>;
         }
-
+        
         return (
             <div className="container">
                 <h2>Lista de Processos Licitatórios</h2>
@@ -164,6 +167,5 @@ $parametros_backend = array(
             </div>
         );
     };
-
     ReactDOM.render(<AppListaLicitacao />, document.querySelector('.App_listar_licitacao'));
 </script>

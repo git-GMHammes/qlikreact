@@ -6,16 +6,15 @@ if (!extension_loaded('swoole')) {
 }
 
 // Criar um servidor WebSocket com Swoole
-$server = new Swoole\WebSocket\Server("0.0.0.0", 4109);
+$server = new Swoole\WebSocket\Server("0.0.0.0", 5609);
 
 $server->on("start", function (Swoole\WebSocket\Server $server) {
-    echo "Swoole WebSocket Server is started at http://127.0.0.1:4109\n";
+    echo "Swoole WebSocket Server is started at http://127.0.0.1:5609\n";
 });
 
 $server->on('open', function(Swoole\WebSocket\Server $server, $request) {
     echo "Connection open: {$request->fd}\n";
-    // Enviar uma mensagem de volta ao cliente assim que a conexão for estabelecida
-    $server->push($request->fd, "Conexão estabelecida com sucesso");
+    // Você pode enviar uma mensagem para o cliente recém-conectado aqui, se necessário
 });
 
 $server->on('message', function(Swoole\WebSocket\Server $server, $frame) {

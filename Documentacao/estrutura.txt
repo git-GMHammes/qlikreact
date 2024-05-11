@@ -1,84 +1,94 @@
-
-/qlikreact
-|
-|-- app/
-|   |-- Config/
-|   |-- Controllers/
-|   |-- Database/
-|   |-- Filters/
-|   |-- Language/
-|   |-- Libraries/
-|   |-- Models/
-|   |-- ThirdParty/
-|   |-- Validation/
-|   |-- Views/
-|   |   |-- qlikreact/
-|   |   |   |-- etapa/
-|   |   |   |   |-- form_atualizar.php
-|   |   |   |   |-- form_cadastrar.php
-|   |   |   |   |-- form_field.php
-|   |   |   |   |-- listar.php
-|   |   |   |-- integra/
-|   |   |   |   |-- form_atualizar.php
-|   |   |   |   |-- form_cadastrar.php
-|   |   |   |   |-- form_field.php
-|   |   |   |   |-- listar.php
-|   |   |   |-- justificativa/
-|   |   |   |   |-- form_atualizar.php
-|   |   |   |   |-- form_cadastrar.php
-|   |   |   |   |-- form_field.php
-|   |   |   |   |-- listar.php
-|   |   |   |-- licitacao/
-|   |   |   |   |-- form_atualizar.php
-|   |   |   |   |-- form_cadastrar.php
-|   |   |   |   |-- form_field.php
-|   |   |   |   |-- listar.php
-|   |   |   |-- template/
-|   |   |   |   |-- form_atualizar.php
-|   |   |   |   |-- form_cadastrar.php
-|   |   |   |   |-- form_field.php
-|   |   |   |   |-- listar.php
-|   |   |   |-- usuario/
-|   |   |   |   |-- login.php
-|   |   |   |   |-- novo.php
-|   |   |   |   |-- main.php
-|   |   |   |   |-- log.php
-|
-|-- public/
-|   |-- .htaccess
-|   |-- index.php
-|   |-- robots.txt
-|   |-- assets/
-|   |-- writable/
-|   |   |-- cache/
-|   |   |-- logs/
-|   |   |-- session/
-|   |   |-- uploads/
-|
-|-- system/
-|   |-- Console/
-|   |-- Database/
-|   |-- Debug/
-|   |-- Helpers/
-|   |-- Language/
-|   |-- ThirdParty/
-|
-|
-|-- tests/
-|
-|-- vendor/
-|
-|-- .env
-|-- spark
-
-
-Descrição dos Diretórios e Arquivos
-
-app/: Contém os arquivos da sua aplicação, como configurações, controllers, models, views, etc.
-public/: Diretório público do seu servidor web. Deve ser o root do seu servidor. Contém o arquivo index.php que é o ponto de entrada para todas as requisições.
-system/: Contém os arquivos core do CodeIgniter. Geralmente, não é necessário modificar nada aqui.
-writable/: Diretório para arquivos que necessitam de permissão de escrita, como logs e caches.
-tests/: Contém os testes automatizados da sua aplicação.
-vendor/: Diretório onde o Composer instala as dependências do projeto.
-.env: Arquivo para definir variáveis de ambiente específicas do seu projeto.
-spark: Script de linha de comando do CodeIgniter que ajuda a executar tarefas como a inicialização de servidores, migrações de banco de dados, etc.
+/www
+|-- /qlikreact
+    |-- .gitignore
+    |-- docker-compose.yml
+    |-- Dockerfile
+    |-- README.md
+    |-- /Documentacao
+    |-- /mysql-data
+    |-- /mysql-init
+    |-- /src
+        |-- .env
+        |-- composer.json
+        |-- env
+        |-- LICENSE
+        |-- phpunit.xml.dist
+        |-- preload.php
+        |-- README.md
+        |-- spark
+        |-- /app
+            |-- /Controllers
+                |-- BaseController.php
+                |-- DocumentacaoApiController.php
+                |-- DocumentacaoEndpointController.php
+                |-- EtapaApiController.php
+                |-- EtapaEndpointController.php
+                |-- FeriadoController.php
+                |-- Home.php
+                |-- IntegraApiController.php
+                |-- IntegraEndpointController.php
+                |-- JustificativaApiController.php
+                |-- JustificativaEndpointController.php
+                |-- LicitacaoApiController.php
+                |-- LicitacaoEndpointController.php
+                |-- LicitacaoEtapaApiController.php
+                |-- LicitacaoEtapaEndpointController.php
+                |-- UsuarioApiController.php
+                |-- UsuarioEndpointController.php
+            |-- /Helpers
+                |-- myArray_helper.php
+                |-- myCaptcha_helper.php
+                |-- myChar_helper.php
+                |-- myCookie_helper.php
+                |-- myCPFvalidation_helper.php
+                |-- myDate_helper.php
+                |-- myEmulaSSO_helper.php
+                |-- myEndPoint_helper.php
+                |-- myEndPoint_helper2.php
+                |-- myFake_helper.php
+                |-- myIcon_helper.php
+                |-- myIdUFF_helper.php
+                |-- myPrint_helper.php
+                |-- myResolution_helper.php
+                |-- myTerminalTranslation_helper.php
+            |-- /Models
+                |-- .gitkeep
+                |-- EtapaModel.php
+                |-- FeriadoModel.php
+                |-- JustificativaModel.php
+                |-- LicitacaoEtapaModel.php
+                |-- LicitacaoModel.php
+                |-- UsuarioModel.php
+                |-- ViewDocumentacaoModel.php
+                |-- ViewHistocicoJustificativa.php
+                |-- ViewLicitacaoEtapa.php
+            |-- /Views
+                |-- /qlikreact
+                    |-- /documentacao
+                    |-- /etapa
+                    |-- /integra
+                    |-- /integrar
+                    |-- /justificativa
+                    |-- /licitacao
+                    |-- /licitacao_etapa
+                    |-- /template
+                    |-- /usuario
+                    |-- footer.php
+                    |-- head.php
+                    |-- menu.php
+                    |-- message.php
+        |-- /public
+            |-- favicon.ico
+            |-- index.php
+            |-- robots.txt
+            |-- .htaccess
+            |-- /assets
+            |-- /seguranca
+            |-- /writable
+        |-- /system
+        |-- /tests
+        |-- /writable
+    |-- /websocket_server
+        |-- Dockerfile
+        |-- start.sh
+        |-- websocket.php

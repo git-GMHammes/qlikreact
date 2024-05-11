@@ -22,4 +22,4 @@ RUN chmod +x /start.sh
 # Expor a porta 5609
 EXPOSE 5609
 
-CMD ["/start.sh"]
+CMD ["/bin/bash", "/start.sh"]
