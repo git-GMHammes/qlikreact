@@ -6,7 +6,7 @@ services:
     image: php:8.1-apache
     container_name: qlikreact-qlikreact-apache
     volumes:
-      - qlikreact-src:/var/www/html
+      - ./var/www/html
     working_dir: /var/www/html
     ports:
       - "5601:80"
@@ -19,7 +19,7 @@ services:
     image: php:8.1-cli
     container_name: qlikreact-php81-websocket
     volumes:
-      - qlikreact-websocket_server:/var/www/html
+      - ./var/www/html
     working_dir: /var/www/html
     ports:
       - "5602:5609"
@@ -59,8 +59,7 @@ services:
     ports:
       - "3356:3306"
     volumes:
-      - qlikreact-mysql-data:/var/lib/mysql
-      - qlikreact-mysql-init:/docker-entrypoint-initdb.d
+      - ./var/lib/mysql
 
 volumes:
   qlikreact-src:
