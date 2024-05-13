@@ -134,7 +134,7 @@ if ($_SERVER["SERVER_PORT"] == '80') {
 ) {
     // SSL
 } elseif (
-    $_SERVER["SERVER_PORT"] == '5607'
+    $_SERVER["SERVER_PORT"] == '5601'
 ) {
     if (
         $_SERVER['SERVER_NAME'] == 'localhost' ||

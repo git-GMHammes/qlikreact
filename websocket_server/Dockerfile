@@ -19,7 +19,7 @@ COPY ./ /var/www/html/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Expor a porta 5609
-EXPOSE 5609
+# Expor a porta 5602
+EXPOSE 5602
 
-CMD ["/bin/bash", "/start.sh"]
+CMD ["/start.sh"]

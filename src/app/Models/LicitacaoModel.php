@@ -72,7 +72,7 @@ class LicitacaoModel extends Model
             );
             session()->set('message',  $this->message);
             session()->markAsTempdata('message', 5);
-            myPrint($this->getMessage(), 'src/app/Models/');
+            myPrint($th->getMessage(), 'src/app/Models/');
         }
         return $this;
     }
@@ -80,9 +80,10 @@ class LicitacaoModel extends Model
     public function dbRead($keyVariable = NULL, $keyValue = NULL)
     {
         $getColumnsFromTable = array();
-        // $getColumnsFromTable = $this->getColumnsFromTable($this->table)['COLUMN'];
+        $getColumnsFromTable = $this->getColumnsFromTable($this->table)['COLUMN'];
         $this->allowedFields = $getColumnsFromTable;
-        // myPrint($getColumnsFromTable, 'src/app/Models/ComCategoriaModel.php');
+        // myPrint($keyVariable, 'src/app/Models/ComCategoriaModel.php', true);
+        // myPrint($keyValue, 'src/app/Models/ComCategoriaModel.php');
         #
         try {
             if ($keyVariable !== NULL && $keyValue !== NULL) {
@@ -97,21 +98,21 @@ class LicitacaoModel extends Model
             $this->message['message']['danger'] = array(
                 $th->getMessage(),
             );
-            session()->set('message',  $this->message);
+            session()->set('message', $this->message);
             session()->markAsTempdata('message', 5);
-            myPrint($this->getMessage(), 'src/app/Models/');
+            myPrint($th->getMessage(), 'src/app/Models/'); // Corrigido aqui
         }
-        return $this;
+        return $this;        
     }
 
     public function dbUpdate($key, $dbUpdate)
     {
+        // myPrint($key, 'src\app\Models\LicitacaoModel.php', true);
+        // myPrint($dbUpdate, 'src\app\Models\LicitacaoModel.php');
         try {
             if (isset($key) && isset($dbUpdate)) {
                 $this->allowedFields = array_keys($dbUpdate);
-                // myPrint($this->allowedFields, true);
                 $this->update($key, $dbUpdate);
-                // myPrint($dbUpdate, true);
             }
             $this->affectedRows = $this->db->affectedRows();
             if ($this->affectedRows > 0) {
@@ -125,7 +126,7 @@ class LicitacaoModel extends Model
             );
             session()->set('message',  $this->message);
             session()->markAsTempdata('message', 5);
-            myPrint($this->getMessage(), 'src/app/Models/');
+            myPrint($th->getMessage(), 'src/app/Models/');
         }
         return $this;
     }
@@ -141,7 +142,7 @@ class LicitacaoModel extends Model
             );
             session()->set('message',  $this->message);
             session()->markAsTempdata('message', 5);
-            myPrint($this->getMessage(), 'src/app/Models/');
+            myPrint($th->getMessage(), 'src/app/Models/');
         }
         return $this;
     }

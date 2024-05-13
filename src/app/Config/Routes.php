@@ -7,7 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Home::index');
 // $routes->get('/', 'LicitacaoApiController::dbRead');
-$routes->addRedirect('/', 'qlikreact/licitacao/api/listar');
+$routes->addRedirect('/', 'qlikreact/licitacao/endpoint/listar');
+$routes->addRedirect('/api', 'qlikreact/licitacao/api/listar');
+$routes->addRedirect('/endpoint', 'qlikreact/licitacao/endpoint/listar');
 
 $routes->group('qlikreact', function ($routes) {
     # www/qlikreact/feriado/(:any)

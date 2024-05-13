@@ -41,7 +41,7 @@ class LicitacaoApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $uploadedFiles = $request->getFiles();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
@@ -94,7 +94,8 @@ class LicitacaoApiController extends ResourceController
                 //     ->orderBy('updated_at', 'asc')
                 //     ->dBread()
                 //     ->findAll();
-            };
+            }
+            ;
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -208,7 +209,7 @@ class LicitacaoApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         // $uploadedFiles = $request->getFiles();
         $token_csrf = (isset($processRequest['token_csrf']) ? $processRequest['token_csrf'] : NULL);
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
@@ -239,7 +240,8 @@ class LicitacaoApiController extends ResourceController
                 }
             } else {
                 $this->returnMyFunction(['ERRO: Dados enviados inválidos'], 'danger');
-            };
+            }
+            ;
             $status = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('trouble') : ('success');
             $message = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('Erro - requisição que foi bem-formada mas não pôde ser seguida devido a erros semânticos.') : ('API loading data (dados para carregamento da API)');
             $cod_http = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? (422) : (201);
@@ -301,63 +303,27 @@ class LicitacaoApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
-        // myPrint($processRequest, 'src\app\Controllers\LicitacaoApiController.php');
+        $processRequest = (array) $request->getVar();
+        $setFormOrder = isset($processRequest['setFormOrder']) ? ($processRequest['setFormOrder']) : (array());
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
-        // $processRequest = eagarScagaire($processRequest);
         #
         try {
-            if(isset($processRequest)){
-                
+            foreach ($setFormOrder as $key_setFormOrder => $value_setFormOrder) {
+                $setFormOrder = explode('|', $value_setFormOrder);
+                $pk_bidding = isset($setFormOrder[1]) ? ($setFormOrder[1]) : (NULL);
+                $priority = isset($setFormOrder[0]) ? ($setFormOrder[0]) : (NULL);
+                $dbUpdate = array(
+                    'pk_bidding' => $pk_bidding,
+                    'priority' => $priority
+                );
+                $this->ModelLicitacao
+                    ->dbUpdate($pk_bidding, $dbUpdate);
             }
-            if (isset($processRequest['id'])) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //    ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //    ->where('id', $processRequest['id'])
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($processRequest['id'], $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $processRequest['id'])
-                //     ->dBdelete();
-                #
-            } elseif ($parameter !== NULL) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($parameter, $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->dBdelete();
-                #
-            } else {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->findAll();
-            };
+            $ModelLicitacao['read'] = $this->ModelLicitacao
+                ->dbRead()
+                ->orderBy('priority', 'asc')
+                ->findAll();
+            
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -370,7 +336,7 @@ class LicitacaoApiController extends ResourceController
                 ],
                 // 'method' => '__METHOD__',
                 // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
+                'result' => $ModelLicitacao,
                 'metadata' => [
                     'page_title' => 'Application title',
                     'getURI' => $this->uri->getSegments(),
@@ -391,10 +357,10 @@ class LicitacaoApiController extends ResourceController
         }
         if ($json == 1) {
             return $response;
-            // return redirect()->back();
             // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
         } else {
-            return $response;
+            // return $response;
+            return redirect()->back();
         }
     }
 
@@ -408,7 +374,7 @@ class LicitacaoApiController extends ResourceController
         $dbResponse = array();
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
@@ -435,7 +401,8 @@ class LicitacaoApiController extends ResourceController
                     ->orderBy('priority', 'asc')
                     ->dBread()
                     ->findAll();
-            };
+            }
+            ;
             foreach ($dbResponse['listar_licitacao'] as $key_dbResponse => $value_dbResponse) {
                 $pk_bidding = isset($value_dbResponse['pk_bidding']) ? ($value_dbResponse['pk_bidding']) : (NULL);
                 // myPrint($pk_bidding, 'src\app\Controllers\AcquisitionProcessManagementApiController.php', true);
@@ -451,47 +418,24 @@ class LicitacaoApiController extends ResourceController
                         ->findAll();
                     foreach ($etapa_licitacao as $key_bidding => $value_bidding) {
                         // myPrint($value_bidding, '$value_bidding', true);
-                        if ($value_bidding['pk_bidding'] === 'ata_aquisicao_de_computadores_cmacbookdit_') {
+                        if ($value_bidding['pk_bidding'] === 'qliksensedss_') {
                             // myPrint($value_bidding, '$value_bidding', true);
                         }
                         if (
-                            $value_bidding['deadline'] === NULL
+                            $value_bidding['made'] == NULL
                         ) {
-                            // echo $value_bidding['deadline'] . ' === ' . 'NULL';
                             $ind_dead_line++;
                         }
                         if (
-                            $value_bidding['deadline'] !== NULL && $value_bidding['deadline'] > date('Y-m-d H:i:s')
-                            && $value_bidding['deadline'] > $value_bidding['date_end']
-                            || $value_bidding['deadline'] == NULL
-                            && $value_bidding['date_start'] == NULL
-                            && $value_bidding['date_end'] !== NULL
-                            || $value_bidding['date_end'] !== NULL
-                            && $value_bidding['deadline'] !== NULL
-                            && $value_bidding['date_start'] !== NULL
-                            && $value_bidding['date_end'] == $value_bidding['deadline']
-                            && $value_bidding['deadline'] == $value_bidding['date_start']
-                            && $value_bidding['date_start'] == $value_bidding['date_end']
+                            $value_bidding['made'] == 'Y'
                         ) {
-                            // echo $value_bidding['deadline'] . ' > ' . date('Y-m-d H:i:s');
                             $ind_made_true++;
                         }
                         if (
-                            $value_bidding['deadline'] !== NULL
-                            && $value_bidding['deadline'] < $value_bidding['date_end']
-                            || $value_bidding['deadline'] < date('Y-m-d H:i:s')
-                            && $value_bidding['date_end'] == NULL
-                            && $value_bidding['date_start'] !== NULL
-                            || $value_bidding['deadline'] !== NULL
-                            && $value_bidding['deadline'] < date('Y-m-d H:i:s')
-                            && $value_bidding['date_start'] == NULL
-                            && $value_bidding['date_end'] == NULL
+                            $value_bidding['made'] == 'N'
                         ) {
-                            // echo $value_bidding['deadline'] . ' < ' . date('Y-m-d H:i:s');
                             $ind_made_false++;
-                            // myPrint($value_bidding, '$value_bidding', true);
                         }
-                        // echo "<br>";
                     }
                     // exit();
                     // myPrint('Licitação: ', $pk_bidding, true);
@@ -500,12 +444,12 @@ class LicitacaoApiController extends ResourceController
                     // myPrint('Com atraso', $ind_made_false, true);
                     // #
                     if (
-                        $ind_dead_line > 1
+                        $ind_dead_line > 0
                         && $ind_made_true === 0
                         && $ind_made_false === 0
                     ) {
-                        // echo "Bateu com tudo em Branco";
-                        // $dbResponse[$pk_bidding]['emoji'] = 'emoji_neutral_fill';
+                        // myPrint('[][][]-Estou NEUTRO-[][][]', '', true);
+                        // myPrint('', '--------------------', true);
                         $dbResponse['carinha'][] = array(
                             'pk_bidding' => $pk_bidding,
                             'sem_prazo' => $ind_dead_line,
@@ -517,11 +461,12 @@ class LicitacaoApiController extends ResourceController
                             'not_fulfilled' => 'Y'
                         ];
                         $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
+                        // exit('BATEU no NEUTRO');
                     } elseif (
                         $ind_made_false > 0
                     ) {
-                        // echo "Com atraso";
-                        // $dbResponse[$pk_bidding]['emoji'] = 'emoji_frown_fill';
+                        // myPrint('[][][]-EM ATRASO-[][][]', '', true);
+                        // myPrint('', '--------------------', true);
                         $dbResponse['carinha'][] = array(
                             'pk_bidding' => $pk_bidding,
                             'sem_prazo' => $ind_dead_line,
@@ -534,28 +479,11 @@ class LicitacaoApiController extends ResourceController
                         ];
                         $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
                     } elseif (
-                        $ind_dead_line > 0
+                        $ind_made_true > 0
+                        && $ind_made_false === 0
                     ) {
-                        // echo "Sem atraso";
-                        // $dbResponse[$pk_bidding]['emoji'] = 'emoji_smile_fill';
-                        $dbResponse['carinha'][] = array(
-                            'pk_bidding' => $pk_bidding,
-                            'sem_prazo' => $ind_dead_line,
-                            'sem_atraso' => $ind_made_true,
-                            'com_atraso' => $ind_made_false,
-                            'emoji' => 'emoji_smile_fill'
-                        );
-                        $dbUpdate = [
-                            'not_fulfilled' => 'Y'
-                        ];
-                        $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
-                    } elseif (
-                        $ind_dead_line == 0
-                        && $ind_made_true > 0
-                        && $ind_made_false == 0
-                    ) {
-                        // echo "Sem atraso";
-                        // $dbResponse[$pk_bidding]['emoji'] = 'emoji_smile_fill';
+                        // myPrint('[][][]-ENTREGUE EM DIA-[][][]', '', true);
+                        // myPrint('', '--------------------', true);
                         $dbResponse['carinha'][] = array(
                             'pk_bidding' => $pk_bidding,
                             'sem_prazo' => $ind_dead_line,
@@ -568,7 +496,8 @@ class LicitacaoApiController extends ResourceController
                         ];
                         $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
                     } else {
-                        // $dbResponse[$pk_bidding]['emoji'] = '';
+                        // myPrint('[][][]-CONFUSO-[][][]', '', true);
+                        // myPrint('', '--------------------', true);
                         $dbResponse['carinha'][] = array(
                             'pk_bidding' => $pk_bidding,
                             'sem_prazo' => $ind_dead_line,
@@ -579,6 +508,7 @@ class LicitacaoApiController extends ResourceController
                     }
                 }
             }
+            // exit();
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -639,7 +569,7 @@ class LicitacaoApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
@@ -694,7 +624,7 @@ class LicitacaoApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
