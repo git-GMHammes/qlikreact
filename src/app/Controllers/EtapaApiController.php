@@ -4,19 +4,19 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-// use App\Models\NomeModel;
+use App\Models\EtapaModel;
 use Exception;
 
 class EtapaApiController extends ResourceController
 { // src\app\Controllers\EtapaApiController.php
     use ResponseTrait;
-    private $ModelResponse;
+    private $ModeEtapa;
     private $dbFields;
     private $uri;
 
     public function __construct()
     {
-        // $this->ModelResponse = new NomeModel();
+        $this->ModelResponse = new EtapaModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
         // helper([
         //'myPrint',
@@ -36,7 +36,7 @@ class EtapaApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $uploadedFiles = $request->getFiles();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
@@ -89,7 +89,8 @@ class EtapaApiController extends ResourceController
                 //     ->orderBy('updated_at', 'asc')
                 //     ->dBread()
                 //     ->findAll();
-            };
+            }
+            ;
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -203,7 +204,7 @@ class EtapaApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         // $uploadedFiles = $request->getFiles();
         $token_csrf = (isset($processRequest['token_csrf']) ? $processRequest['token_csrf'] : NULL);
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
@@ -234,7 +235,8 @@ class EtapaApiController extends ResourceController
                 }
             } else {
                 $this->returnMyFunction(['ERRO: Dados enviados inválidos'], 'danger');
-            };
+            }
+            ;
             $status = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('trouble') : ('success');
             $message = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('Erro - requisição que foi bem-formada mas não pôde ser seguida devido a erros semânticos.') : ('API loading data (dados para carregamento da API)');
             $cod_http = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? (422) : (201);
@@ -286,8 +288,8 @@ class EtapaApiController extends ResourceController
             // return redirect()->back();
         }
     }
-    # route POST /www/sigla/rota
-    # route GET /www/sigla/rota
+    # route POST /qlikreact/licitacao/api/listar/(:any)
+    # route GET /qlikreact/licitacao/api/listar/(:any)
     # Informação sobre o controller
     # retorno do controller [JSON]
     public function dbRead($parameter = NULL)
@@ -295,34 +297,35 @@ class EtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
         try {
             if (isset($processRequest['id'])) {
-                // $dbResponse[] = $this->ModelResponse
-                //    ->where('id', $processRequest['id'])
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
+                $dbResponse = $this->ModeEtapa
+                    ->where('id', $processRequest['id'])
+                    ->where('deleted_at', NULL)
+                    ->orderBy('updated_at', 'asc')
+                    ->dBread()
+                    ->find();
                 #
             } elseif ($parameter !== NULL) {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
+                $dbResponse = $this->ModeEtapa
+                    ->where('id', $parameter)
+                    ->where('deleted_at', NULL)
+                    ->orderBy('updated_at', 'asc')
+                    ->dBread()
+                    ->find();
                 #
-            } else {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->findAll();
-            };
+                // } else {
+                $dbResponse = $this->ModeEtapa
+                    ->where('deleted_at', NULL)
+                    ->orderBy('updated_at', 'asc')
+                    ->dBread()
+                    ->findAll();
+            }
+            myPrint($dbResponse, 'src\app\Controllers\EtapaApiController.php');
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -381,7 +384,7 @@ class EtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
@@ -436,7 +439,7 @@ class EtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #

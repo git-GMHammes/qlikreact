@@ -107,7 +107,6 @@ $parametros_backend = array(
                 // Adiciona a nova ordem e o identificador do processo ao formData.
                 formData.append('setFormOrder[]', `${index + 1}|${processo.pk_bidding}`);
             });
-
             // Realiza uma requisição POST para o servidor com os dados atualizados.
             fetch(postUrl, {
                 method: 'POST', // Método HTTP.
@@ -128,7 +127,6 @@ $parametros_backend = array(
 
         if (loading) return <p>Carregando dados...</p>;
         if (error) return <p>Erro ao carregar dados: {error}</p>;
-
         return (
             <div className="container">
                 <h2>Lista de Processos Licitatórios</h2>
