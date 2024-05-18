@@ -91,4 +91,72 @@ $routes->group('qlikreact', function ($routes) {
             $routes->post('deletar/(:any)', 'LicitacaoEndpointController::dbDelete/$1');
         });
     });
+    # www/qlikreact/api/(:any)
+    $routes->group('etapa', function ($routes) {
+        $routes->group('api', function ($routes) {
+            # www/qlikreact/etapa/api/criar/(:any)
+            $routes->get('criar', 'EtapaApiController::create_update');
+            $routes->get('criar/(:segment)', 'EtapaApiController::create_update/$1');
+            $routes->get('criar/(:any)', 'EtapaApiController::create_update/$1');
+            $routes->post('criar', 'EtapaApiController::create_update');
+            $routes->post('criar/(:any)', 'EtapaApiController::create_update/$1');
+            # www/qlikreact/etapa/api/listar/(:any)
+            $routes->get('listar', 'EtapaApiController::dbRead');
+            $routes->get('listar/(:segment)', 'EtapaApiController::dbRead/$1');
+            $routes->get('listar/(:any)', 'EtapaApiController::dbRead/$1');
+            $routes->post('listar', 'EtapaApiController::dbRead');
+            $routes->post('listar/(:any)', 'EtapaApiController::dbRead/$1');
+            # www/qlikreact/etapa/api/atualizar/(:any)
+            $routes->get('atualizar', 'EtapaApiController::create_update');
+            $routes->get('atualizar/(:segment)', 'EtapaApiController::create_update/$1');
+            $routes->get('atualizar/(:any)', 'EtapaApiController::create_update/$1');
+            $routes->post('atualizar', 'EtapaApiController::create_update');
+            $routes->post('atualizar/(:any)', 'EtapaApiController::create_update/$1');
+            # www/qlikreact/etapa/api/ordem/(:any)
+            $routes->get('ordem', 'EtapaApiController::dbOrder');
+            $routes->get('ordem/(:segment)', 'EtapaApiController::dbOrder/$1');
+            $routes->get('ordem/(:any)', 'EtapaApiController::dbOrder/$1');
+            $routes->post('ordem', 'EtapaApiController::dbOrder');
+            $routes->post('ordem/(:any)', 'EtapaApiController::dbOrder/$1');
+            # www/qlikreact/etapa/api/deletar/(:any)
+            $routes->get('deletar', 'EtapaApiController::dbDelete');
+            $routes->get('deletar/(:segment)', 'EtapaApiController::dbDelete/$1');
+            $routes->get('deletar/(:any)', 'EtapaApiController::dbDelete/$1');
+            $routes->post('deletar', 'EtapaApiController::dbDelete');
+            $routes->post('deletar/(:any)', 'EtapaApiController::dbDelete/$1');
+            # www/qlikreact/etapa/api/limpar/(:any)
+            $routes->get('limpar', 'EtapaApiController::clear');
+            $routes->get('limpar/(:segment)', 'EtapaApiController::clear/$1');
+            $routes->get('limpar/(:any)', 'EtapaApiController::clear/$1');
+            $routes->post('limpar', 'EtapaApiController::clear');
+            $routes->post('limpar/(:any)', 'EtapaApiController::clear/$1');
+        });
+        # www/qlikreact/etapa/endpoint/(:any)
+        $routes->group('endpoint', function ($routes) {
+            # www/qlikreact/etapa/endpoint/criar/(:any)
+            $routes->get('criar', 'EtapaEndpointController::dbCreate');
+            $routes->get('criar/(:segment)', 'EtapaEndpointController::dbCreate/$1');
+            $routes->get('criar/(:any)', 'EtapaEndpointController::dbCreate/$1');
+            $routes->post('criar', 'EtapaEndpointController::dbCreate');
+            $routes->post('criar/(:any)', 'EtapaEndpointController::dbCreate/$1');
+            # www/qlikreact/etapa/endpoint/listar/(:any)
+            $routes->get('listar', 'EtapaEndpointController::dbRead');
+            $routes->get('listar/(:segment)', 'EtapaEndpointController::dbRead/$1');
+            $routes->get('listar/(:any)', 'EtapaEndpointController::dbRead/$1');
+            $routes->post('listar', 'EtapaEndpointController::dbRead');
+            $routes->post('listar/(:any)', 'EtapaEndpointController::dbRead/$1');
+            # www/qlikreact/etapa/endpoint/atualizar/(:any)
+            $routes->get('atualizar', 'EtapaEndpointController::dbUpdate');
+            $routes->get('atualizar/(:segment)', 'EtapaEndpointController::dbUpdate/$1');
+            $routes->get('atualizar/(:any)', 'EtapaEndpointController::dbUpdate/$1');
+            $routes->post('atualizar', 'EtapaEndpointController::dbUpdate');
+            $routes->post('atualizar/(:any)', 'EtapaEndpointController::dbUpdate/$1');
+            # www/qlikreact/etapa/endpoint/deletar/(:any)
+            $routes->get('deletar', 'EtapaEndpointController::dbDelete');
+            $routes->get('deletar/(:segment)', 'EtapaEndpointController::dbDelete/$1');
+            $routes->get('deletar/(:any)', 'EtapaEndpointController::dbDelete/$1');
+            $routes->post('deletar', 'EtapaEndpointController::dbDelete');
+            $routes->post('deletar/(:any)', 'EtapaEndpointController::dbDelete/$1');
+        });
+    });
 });

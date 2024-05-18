@@ -79,8 +79,8 @@ class EtapaModel extends Model
 
     public function dbRead($keyVariable = NULL, $keyValue = NULL)
     {
-        $getColumnsFromTable = array();
-        // $getColumnsFromTable = $this->getColumnsFromTable($this->table)['COLUMN'];
+        // $getColumnsFromTable = array();
+        $getColumnsFromTable = $this->getColumnsFromTable($this->table)['COLUMN'];
         $this->allowedFields = $getColumnsFromTable;
         // myPrint($getColumnsFromTable, 'src/app/Models/ComCategoriaModel.php');
         #

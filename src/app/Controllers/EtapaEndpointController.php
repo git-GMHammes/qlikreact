@@ -10,11 +10,11 @@ use Exception;
 class EtapaEndpointController extends ResourceController
 { // src\app\Controllers\EtapaEndpointController.php
     use ResponseTrait;
-    private $template = 'projeto_view/template/main';
-    private $message = 'projeto_view/message';
-    private $footer = 'projeto_view/footer';
-    private $head = 'projeto_view/head';
-    private $menu = 'projeto_view/menu';
+    private $template = 'qlikreact/template/main';
+    private $message = 'qlikreact/message';
+    private $footer = 'qlikreact/footer';
+    private $head = 'qlikreact/head';
+    private $menu = 'qlikreact/menu';
     private $ModelResponse;
     private $uri;
     private $token;
@@ -271,6 +271,7 @@ class EtapaEndpointController extends ResourceController
             $this->head,
             $this->menu,
             $this->message,
+            'estudo/addEventListener/ev_01_click',
             $this->footer,
         );
         try {
@@ -339,8 +340,8 @@ class EtapaEndpointController extends ResourceController
         if ($json == 1) {
             return $apiRespond;
         } else {
-            return $apiRespond;
-            // return view($this->template, $apiRespond);
+            // return $apiRespond;
+            return view($this->template, $apiRespond);
         }
     }
 

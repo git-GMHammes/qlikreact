@@ -16,7 +16,7 @@ class EtapaApiController extends ResourceController
 
     public function __construct()
     {
-        $this->ModelResponse = new EtapaModel();
+        $this->ModeEtapa = new EtapaModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
         // helper([
         //'myPrint',
@@ -288,8 +288,8 @@ class EtapaApiController extends ResourceController
             // return redirect()->back();
         }
     }
-    # route POST /qlikreact/licitacao/api/listar/(:any)
-    # route GET /qlikreact/licitacao/api/listar/(:any)
+    # route POST /qlikreact/etapa/api/listar/(:any)
+    # route GET /qlikreact/etapa/api/listar/(:any)
     # Informação sobre o controller
     # retorno do controller [JSON]
     public function dbRead($parameter = NULL)
@@ -303,7 +303,8 @@ class EtapaApiController extends ResourceController
         #
         try {
             if (isset($processRequest['id'])) {
-                $dbResponse = $this->ModeEtapa
+                $dbResponse = $this
+                    ->ModeEtapa
                     ->where('id', $processRequest['id'])
                     ->where('deleted_at', NULL)
                     ->orderBy('updated_at', 'asc')
@@ -311,21 +312,23 @@ class EtapaApiController extends ResourceController
                     ->find();
                 #
             } elseif ($parameter !== NULL) {
-                $dbResponse = $this->ModeEtapa
+                $dbResponse = $this
+                    ->ModeEtapa
                     ->where('id', $parameter)
                     ->where('deleted_at', NULL)
                     ->orderBy('updated_at', 'asc')
                     ->dBread()
                     ->find();
                 #
-                // } else {
-                $dbResponse = $this->ModeEtapa
+            } else {
+                $dbResponse = $this
+                    ->ModeEtapa
+                    ->dBread()
                     ->where('deleted_at', NULL)
                     ->orderBy('updated_at', 'asc')
-                    ->dBread()
                     ->findAll();
             }
-            myPrint($dbResponse, 'src\app\Controllers\EtapaApiController.php');
+            // myPrint($dbResponse, 'src\app\Controllers\EtapaApiController.php');
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -338,7 +341,7 @@ class EtapaApiController extends ResourceController
                 ],
                 // 'method' => '__METHOD__',
                 // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
+                'result' => $dbResponse,
                 'metadata' => [
                     'page_title' => 'Application title',
                     'getURI' => $this->uri->getSegments(),
