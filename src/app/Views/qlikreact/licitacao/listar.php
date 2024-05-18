@@ -133,9 +133,9 @@ $parametros_backend = array(
                 {/*Cria um formulário que intercepta o evento de submit padrão para prevenir o comportamento de recarregar a página.*/}
                 <form onSubmit={(e) => e.preventDefault()}>
                     {/*
-                        // Esta linha previne o comportamento padrão do formulário, que é enviar e recarregar a página.
-                        // Ao chamar e.preventDefault(), o envio do formulário não causará o recarregamento da página,
-                        // permitindo que a interação aconteça sem interrupções e mantendo o estado do aplicativo.
+                         Esta linha previne o comportamento padrão do formulário, que é enviar e recarregar a página.
+                         Ao chamar e.preventDefault(), o envio do formulário não causará o recarregamento da página,
+                         permitindo que a interação aconteça sem interrupções e mantendo o estado do aplicativo.
                     */}
                     <table className="table table-striped table-hover">
                         <thead>
@@ -153,12 +153,11 @@ $parametros_backend = array(
                                 <tr key={index}>
                                     <td>
                                         <i className="bi bi-grip-vertical" draggable="true"
-                                            {/*// Atributo onDragStart associado ao ícone, iniciado quando um drag (arraste) começa.*/}
+                                            // Atributo onDragStart associado ao ícone, iniciado quando um drag (arraste) começa.
                                             onDragStart={(e) => onDragStart(e, index)}
-                                            {/* Atributo onDragOver que é chamado sempre que um item arrastado passa sobre um possível local de soltura.*/}
+                                            // Atributo onDragOver que é chamado sempre que um item arrastado passa sobre um possível local de soltura.
                                             onDragOver={onDragOver}
-                                            {/* Atributo onDrop que é chamado quando um item é solto sobre o elemento. Este evento finaliza o processo de arrastar e soltar.*/}
-                                            {/**/}
+                                            // Atributo onDrop que é chamado quando um item é solto sobre o elemento. Este evento finaliza o processo de arrastar e soltar.
                                             onDrop={(e) => onDrop(e, index)}></i>
                                     </td>
                                     <td>{index + 1}</td>
