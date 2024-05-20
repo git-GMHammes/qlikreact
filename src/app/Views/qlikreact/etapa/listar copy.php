@@ -16,21 +16,12 @@ $parametros_backend = array(
 
         // Variáveis recebidas do Backend
         const parametros = JSON.parse(document.querySelector('.App_listar_etapa').getAttribute('data-result'));
-        // console.log('Parametros do Backends: ', parametros);
-        const request_scheme = parametros.request_scheme;
-        const server_name = parametros.server_name;
-        const server_port = parametros.server_port;
-        const route_api_001 = parametros.route_api_001;
-        const getURI = parametros.getURI;
-        // console.log('Parâmentros da URI: ', getURI);
-        const url_api_001 = `${request_scheme}://${server_name}:${server_port}/${route_api_001}`;
-        // console.log('API (GET): ', url_api_001);
+        const url_api_001 = `${parametros.request_scheme}://${parametros.server_name}:${parametros.server_port}/${parametros.route_api_001}`;
 
         // Variáveis do react
         const [loading, setLoading] = React.useState(true);
         const [error, setError] = React.useState(null);
         const [etapa, setEtapa] = React.useState([]);
-        const [carinha, setCarinha] = React.useState([]);
 
         React.useEffect(() => {
             fetch(url_api_001)
@@ -61,7 +52,6 @@ $parametros_backend = array(
                 });
         }, []);
 
-        // Verificação de carregamento
         if (loading) {
             return (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
@@ -75,11 +65,11 @@ $parametros_backend = array(
                     }} />
                     <style>
                         {`
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-                `}
+                            @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }
+                        `}
                     </style>
                     &emsp;Carregando...
                 </div>
@@ -92,33 +82,24 @@ $parametros_backend = array(
 
         return (
             <div>
-                <div>
-                    <h2>Lista de Etapas</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nº</th>
+                <h2>Lista de Etapas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nº</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {etapa.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.pk_stage}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {etapa.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item.pk_stage}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <pre>
-                    {JSON.stringify(etapa, null, 2)}
-                </pre>
-                <div>
-                    {etapa.map((item, index) => (
-                        <div key={index}>{item.pk_stage}</div>
-                    ))}
-                </div>
-            </div >
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         );
     };
+
     ReactDOM.render(<AllListaEtapa />, document.querySelector('.App_listar_etapa'));
 </script>

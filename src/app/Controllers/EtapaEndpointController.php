@@ -271,7 +271,7 @@ class EtapaEndpointController extends ResourceController
             $this->head,
             $this->menu,
             $this->message,
-            'estudo/addEventListener/ev_01_click',
+            'qlikreact/etapa/listar',
             $this->footer,
         );
         try {
