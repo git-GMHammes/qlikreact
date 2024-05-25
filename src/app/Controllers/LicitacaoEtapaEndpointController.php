@@ -10,11 +10,11 @@ use Exception;
 class LicitacaoEtapaEndpointController extends ResourceController
 { // src\app\Controllers\LicitacaoEtapaEndpointController.php
     use ResponseTrait;
-    private $template = 'projeto_view/template/main';
-    private $message = 'projeto_view/message';
-    private $footer = 'projeto_view/footer';
-    private $head = 'projeto_view/head';
-    private $menu = 'projeto_view/menu';
+    private $template = 'qlikreact/template/main';
+    private $message = 'qlikreact/message';
+    private $footer = 'qlikreact/footer';
+    private $head = 'qlikreact/head';
+    private $menu = 'qlikreact/menu';
     private $ModelResponse;
     private $uri;
     private $token;
@@ -252,8 +252,8 @@ class LicitacaoEtapaEndpointController extends ResourceController
     }
 
     # Consumo de API
-    # route GET /www/sigla/rota
-    # route POST /www/sigla/rota
+    # route GET /www/qlikreact/licitacao_etapa/endpoint/listar/(:any)
+    # route POST /www/qlikreact/licitacao_etapa/endpoint/listar/(:any)
     # Informação sobre o controller
     # retorno do controller [VIEW]
     public function dbRead($parameter = NULL)
@@ -271,6 +271,7 @@ class LicitacaoEtapaEndpointController extends ResourceController
             $this->head,
             $this->menu,
             $this->message,
+            'qlikreact/licitacao_etapa/listar',
             $this->footer,
         );
         try {
@@ -339,8 +340,8 @@ class LicitacaoEtapaEndpointController extends ResourceController
         if ($json == 1) {
             return $apiRespond;
         } else {
-            return $apiRespond;
-            // return view($this->template, $apiRespond);
+            // return $apiRespond;
+            return view($this->template, $apiRespond);
         }
     }
 
