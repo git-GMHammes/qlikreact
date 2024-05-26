@@ -3,14 +3,11 @@ $parametros_backend = array(
     'url' => base_url() . 'index.php/qlikreact/licitacao/api/listar',
     'post' => base_url() . 'index.php/qlikreact/licitacao/api/ordem',
     'DEBUG_MY_PRINT' => false,
-    'getURI' => array(
-        "index.php",
-        "qlikreact",
-        "licitacao",
-        "api",
-        "listar"
+    'request_scheme' => $_SERVER['REQUEST_SCHEME'],
+    'server_name' => $_SERVER['SERVER_NAME'],
+    'server_port' => $_SERVER['SERVER_PORT'],
+    'getURI' => isset($metadata['getURI']) ? ($metadata['getURI']) : (array())
     )
-);
 ?>
 
 <div class="App_listar_licitacao" data-result='<?php echo json_encode($parametros_backend); ?>'></div>

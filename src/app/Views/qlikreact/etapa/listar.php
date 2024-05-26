@@ -1,11 +1,12 @@
 <?php
 $getURI = isset($metadata['getURI']) ? $metadata['getURI'] : (array());
 $parametros_backend = array(
+    'route_api_001' => 'qlikreact/etapa/api/listar',
+    'DEBUG_MY_PRINT' => false,
     'request_scheme' => $_SERVER['REQUEST_SCHEME'],
     'server_name' => $_SERVER['SERVER_NAME'],
     'server_port' => $_SERVER['SERVER_PORT'],
-    'route_api_001' => 'qlikreact/etapa/api/listar',
-    'getURI' => $getURI
+    'getURI' => isset($metadata['getURI']) ? ($metadata['getURI']) : (array())
 );
 ?>
 
@@ -97,13 +98,40 @@ $parametros_backend = array(
                     <table>
                         <thead>
                             <tr>
-                                <th>Nº</th>
+                                <th>
+                                    Ordem
+                                </th>
+                                <td>
+                                    Nº
+                                </td>
+
+                                <th>
+                                    Estragio Atual<br />
+                                    Estágio
+                                </th>
+                                <th>
+                                    Sigla<br />
+                                    Acrônimo
+                                </th>
+                                <th>
+                                    Rótulo<br />
+                                    Segundo Rotulo
+                                </th>
+                                <th>
+                                    Termo interno<br />
+                                    Padrão interno
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {etapa.map((item, index) => (
                                 <tr key={index}>
+                                    <td>{item.order}</td>
                                     <td>{item.pk_stage}</td>
+                                    <td>{item.stage}</td>
+                                    <td>{item.str_acronym}</td>
+                                    <td>{item.str_label}</td>
+                                    <td>{item.int_standard_term}</td>
                                 </tr>
                             ))}
                         </tbody>
