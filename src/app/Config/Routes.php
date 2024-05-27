@@ -9,8 +9,8 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', 'LicitacaoApiController::dbRead');
 $routes->addRedirect('/', 'qlikreact/licitacao/endpoint/listar');
 $routes->addRedirect('/api', 'qlikreact/licitacao/api/listar');
-$routes->addRedirect('/listar_licitacao', 'qlikreact/licitacao/endpoint/listar');
-$routes->addRedirect('/listar_licitacao_etapa', 'qlikreact/licitacao_etapa/endpoint/listar');
+$routes->addRedirect('/licitacao', 'qlikreact/licitacao/endpoint/listar');
+$routes->addRedirect('/licitacaoetapa', 'qlikreact/licitacao_etapa/endpoint/listar');
 $routes->addRedirect('/etapa', 'qlikreact/etapa/endpoint/listar');
 
 $routes->group('qlikreact', function ($routes) {

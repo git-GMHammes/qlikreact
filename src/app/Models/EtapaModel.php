@@ -125,7 +125,7 @@ class EtapaModel extends Model
             );
             session()->set('message',  $this->message);
             session()->markAsTempdata('message', 5);
-            myPrint($this->getMessage(), 'src/app/Models/');
+            myPrint($th->getMessage(), 'src/app/Models/');
         }
         return $this;
     }

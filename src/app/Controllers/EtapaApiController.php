@@ -288,6 +288,80 @@ class EtapaApiController extends ResourceController
             // return redirect()->back();
         }
     }
+
+    # route POST /www/qlikreact/etapa/api/ordem/(:any)
+    # route GET /www/qlikreact/etapa/api/ordem/(:any)
+    # Informação sobre o controller
+    # retorno do controller [JSON]
+    public function dbOrder($parameter = NULL)
+    {
+        # Parâmentros para receber um POST
+        $request = service('request');
+        $getMethod = $request->getMethod();
+        $processRequest = (array) $request->getVar();
+        // myPrint($processRequest, 'src\app\Controllers\EtapaApiController.php', true);
+        $setFormOrder = isset($processRequest['setFormOrder']) ? ($processRequest['setFormOrder']) : (array());
+        $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
+        #
+        try {
+            foreach ($setFormOrder as $key_setFormOrder => $value_setFormOrder) {
+                $setFormOrder = explode('|', $value_setFormOrder);
+                $pk_stage = isset($setFormOrder[1]) ? ($setFormOrder[1]) : (NULL);
+                $order = isset($setFormOrder[0]) ? ($setFormOrder[0]) : (NULL);
+                $dbUpdate = array(
+                    'pk_stage' => $pk_stage,
+                    'order' => $order
+                );
+                // myPrint($dbUpdate, '', true);
+                $this->ModeEtapa
+                    ->dbUpdate($pk_stage, $dbUpdate);
+            }
+            $ModeEtapa['read'] = $this->ModeEtapa
+                ->dbRead()
+                ->orderBy('order', 'asc')
+                ->findAll();
+            // myPrint($ModeEtapa, '');
+            $apiRespond = [
+                'status' => 'success',
+                'message' => 'API loading data (dados para carregamento da API)',
+                'date' => date('Y-m-d'),
+                'api' => [
+                    'version' => '1.0',
+                    'method' => $getMethod,
+                    'description' => 'API Description',
+                    'content_type' => 'application/x-www-form-urlencoded'
+                ],
+                // 'method' => '__METHOD__',
+                // 'function' => '__FUNCTION__',
+                'result' => $ModeEtapa,
+                'metadata' => [
+                    'page_title' => 'Application title',
+                    'getURI' => $this->uri->getSegments(),
+                    // Você pode adicionar campos comentados anteriormente se forem relevantes
+                    // 'method' => '__METHOD__',
+                    // 'function' => '__FUNCTION__',
+                ]
+            ];
+            $response = $this->response->setJSON($apiRespond, 201);
+        } catch (\Exception $e) {
+            $apiRespond = array(
+                'result' => array('danger' => $e->getMessage()),
+                'message' => array('danger' => $e->getMessage()),
+                'page_title' => 'Application title',
+                'getURI' => $this->uri->getSegments(),
+            );
+            // $this->returnFunction(array($e->getMessage()), 'danger',);
+            $response = $this->response->setJSON($apiRespond, 500);
+        }
+        if ($json == 1) {
+            return $response;
+            // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
+        } else {
+            return $response;
+            // return redirect()->back();
+        }
+    }
+
     # route POST /qlikreact/etapa/api/listar/(:any)
     # route GET /qlikreact/etapa/api/listar/(:any)
     # Informação sobre o controller
@@ -307,7 +381,7 @@ class EtapaApiController extends ResourceController
                     ->ModeEtapa
                     ->where('id', $processRequest['id'])
                     ->where('deleted_at', NULL)
-                    ->orderBy('updated_at', 'asc')
+                    ->orderBy('order', 'asc')
                     ->dBread()
                     ->find();
                 #
@@ -316,7 +390,7 @@ class EtapaApiController extends ResourceController
                     ->ModeEtapa
                     ->where('id', $parameter)
                     ->where('deleted_at', NULL)
-                    ->orderBy('updated_at', 'asc')
+                    ->orderBy('order', 'asc')
                     ->dBread()
                     ->find();
                 #
@@ -325,7 +399,7 @@ class EtapaApiController extends ResourceController
                     ->ModeEtapa
                     ->dBread()
                     ->where('deleted_at', NULL)
-                    ->orderBy('updated_at', 'asc')
+                    ->orderBy('order', 'asc')
                     ->findAll();
             }
             // myPrint($dbResponse, 'src\app\Controllers\EtapaApiController.php');

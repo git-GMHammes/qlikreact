@@ -294,8 +294,8 @@ class LicitacaoApiController extends ResourceController
         }
     }
 
-    # route POST /www/sigla/rota
-    # route GET /www/sigla/rota
+    # route POST /www/qlikreact/licitacao/api/ordem/(:any)
+    # route GET /www/qlikreact/licitacao/api/ordem/(:any)
     # Informação sobre o controller
     # retorno do controller [JSON]
     public function dbOrder($parameter = NULL)
