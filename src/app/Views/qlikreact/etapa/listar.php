@@ -9,6 +9,7 @@ $parametros_backend = array(
     'server_port' => $_SERVER['SERVER_PORT'],
     'getURI' => isset($metadata['getURI']) ? ($metadata['getURI']) : (array())
 );
+// myPrint($parametros_backend, '');
 ?>
 
 <div class="App_listar_etapa" data-result='<?php echo json_encode($parametros_backend); ?>'></div>

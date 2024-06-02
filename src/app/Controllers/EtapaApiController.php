@@ -5,18 +5,21 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\EtapaModel;
+use App\Controllers\EtapaDbController;
 use Exception;
 
 class EtapaApiController extends ResourceController
 { // src\app\Controllers\EtapaApiController.php
     use ResponseTrait;
     private $ModeEtapa;
+    private $DbEtapa;
     private $dbFields;
     private $uri;
 
     public function __construct()
     {
         $this->ModeEtapa = new EtapaModel();
+        $this->DbEtapa = new EtapaDbController();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
         // helper([
         //'myPrint',
@@ -377,30 +380,14 @@ class EtapaApiController extends ResourceController
         #
         try {
             if (isset($processRequest['id'])) {
-                $dbResponse = $this
-                    ->ModeEtapa
-                    ->where('id', $processRequest['id'])
-                    ->where('deleted_at', NULL)
-                    ->orderBy('order', 'asc')
-                    ->dBread()
-                    ->find();
-                #
+                // use App\Controllers\EtapaDbController;
+                $dbResponse = $this->DbEtapa->selectBase($processRequest['id']);
             } elseif ($parameter !== NULL) {
-                $dbResponse = $this
-                    ->ModeEtapa
-                    ->where('id', $parameter)
-                    ->where('deleted_at', NULL)
-                    ->orderBy('order', 'asc')
-                    ->dBread()
-                    ->find();
-                #
+                // use App\Controllers\EtapaDbController;
+                $dbResponse = $this->DbEtapa->selectBase($parameter);
             } else {
-                $dbResponse = $this
-                    ->ModeEtapa
-                    ->dBread()
-                    ->where('deleted_at', NULL)
-                    ->orderBy('order', 'asc')
-                    ->findAll();
+                // use App\Controllers\EtapaDbController;
+                $dbResponse = $this->DbEtapa->selectBase();
             }
             // myPrint($dbResponse, 'src\app\Controllers\EtapaApiController.php');
             $apiRespond = [

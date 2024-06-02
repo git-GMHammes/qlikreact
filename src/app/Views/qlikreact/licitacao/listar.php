@@ -8,6 +8,7 @@ $parametros_backend = array(
     'server_port' => $_SERVER['SERVER_PORT'],
     'getURI' => isset($metadata['getURI']) ? ($metadata['getURI']) : (array())
 );
+// myPrint($parametros_backend, '');
 ?>
 
 <div class="App_listar_licitacao" data-result='<?php echo json_encode($parametros_backend); ?>'></div>
@@ -102,7 +103,7 @@ $parametros_backend = array(
             }).then(response => response.text()) // Converte a resposta para texto.
                 .then(data => {
                     if (debugMyPrint) {
-                        console.log("Submit response V2:", data.result;
+                        console.log("Submit response V2:", data.result);
                     }
                 })
                 .catch(error => {
@@ -138,7 +139,7 @@ $parametros_backend = array(
         return (
             <div className="container">
                 <h2>Lista de Processos Licitatórios</h2>
-                <f orm onSubmit={(e) => e.preventDefault()}>
+                <form onSubmit={(e) => e.preventDefault()}>
                     {/*
                          Esta linha previne o comportamento padrão do formulário, que é enviar e recarregar a página.
                          Ao chamar e.preventDefault(), o envio do formulário não causará o recarregamento da página,

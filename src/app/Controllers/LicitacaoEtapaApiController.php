@@ -287,8 +287,8 @@ class LicitacaoEtapaApiController extends ResourceController
         }
     }
 
-    # route POST /www/sigla/rota
-    # route GET /www/sigla/rota
+    # route POST /www/qlikreact/licitacao/api/listar/(:any)
+    # route GET /www/qlikreact/licitacao/api/listar/(:any)
     # Informação sobre o controller
     # retorno do controller [JSON]
     public function dbRead($parameter = NULL)
@@ -298,7 +298,6 @@ class LicitacaoEtapaApiController extends ResourceController
         $getMethod = $request->getMethod();
         $processRequest = (array)$request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
-        // $processRequest = eagarScagaire($processRequest);
         #
         try {
             if (isset($processRequest['id'])) {
