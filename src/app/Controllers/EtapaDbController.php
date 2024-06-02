@@ -1,28 +1,22 @@
 <?php
 namespace App\Controllers;
 
-use CodeIgniter\RESTful\ResourceController;
-use CodeIgniter\API\ResponseTrait;
 use App\Models\EtapaModel;
+use App\Controllers\SystemMessageController;
 use Exception;
 
-class EtapaDbController extends ResourceController
+class EtapaDbController extends BaseController
 { // src\app\Controllers\EtapaDbController.php
-    use ResponseTrait;
     private $ModelEtapa;
     private $dbFields;
+    private $message;
     private $uri;
 
     public function __construct()
     {
         $this->ModelEtapa = new EtapaModel();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
-        // helper([
-        //'myPrint',
-        //'myDate',
-        //'myIdUFF',
-        //'myFake'
-        // ]);
+        $this->message = new SystemMessageController();
     }
     #
     # route POST /www/sigla/rota
@@ -159,10 +153,10 @@ class EtapaDbController extends ResourceController
         return (NULL);
     }
 
-    # route POST /www/sigla/rota
-    # route GET /www/sigla/rota
-    # Informação sobre o controller
-    # retorno do controller [JSON]
+    // use App\Controllers\EtapaDbController;
+    // private $EtapaDb;
+    // $this->EtapaDb = new EtapaDbController();
+    // $this->EtapaDb->selectBase();
     public function selectBase($parameter1 = NULL, $parameter2 = 1000)
     {
         try {
@@ -172,7 +166,7 @@ class EtapaDbController extends ResourceController
                     ->where('pk_stage', $parameter1)
                     ->where('deleted_at', NULL)
                     ->orderBy('order', 'asc')
-                    ->limit($parameter2)
+                    ->limit(1)
                     ->dBread()
                     ->find();
             } else {
@@ -185,11 +179,24 @@ class EtapaDbController extends ResourceController
                     ->findAll();
             }
         } catch (Exception $e) {
-            $this->returnMyFunction(array($e->getMessage()), 'danger');
+            $this->message->message(['ERRO: ' . $e->getMessage()], 'danger');
             $dbResponse = array();
         }
         return $dbResponse;
     }
 
+    // use App\Controllers\EtapaDbController;
+    // private $EtapaDb;
+    // $this->EtapaDb = new EtapaDbController();
+    // $this->EtapaDb->currentStage();
+    public function currentStage($parameter1 = NULL, $parameter2 = NULL, $parameter3 = NULL)
+    {
+        try {
+
+        } catch (Exception $e) {
+            $this->message->message(['ERRO: ' . $e->getMessage()], 'danger');
+            $dbResponse = array();
+        }
+    }
 }
 ?>

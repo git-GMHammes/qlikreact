@@ -4,132 +4,25 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-// use App\Models\NomeModel;
+use App\Controllers\LicitacaoEtapaDbController;
 use Exception;
 
 class LicitacaoEtapaApiController extends ResourceController
 { // src\app\Controllers\LicitacaoEtapaApiController.php
     use ResponseTrait;
-    private $ModelResponse;
+    private $LicitacaoEtapaDb;
     private $dbFields;
     private $uri;
 
     public function __construct()
     {
-        // $this->ModelResponse = new NomeModel();
+        $this->LicitacaoEtapaDb = new LicitacaoEtapaDbController();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
-        // helper([
-        //'myPrint',
-        //'myDate',
-        //'myIdUFF',
-        //'myFake'
-        // ]);
     }
     #
-    # route POST /www/sigla/rota
-    # route GET /www/sigla/rota
-    # Informação sobre o controller
-    # retorno do controller [JSON]
     public function index($parameter = NULL)
     {
-        # Parâmentros para receber um POST
-        $request = service('request');
-        $getMethod = $request->getMethod();
-        $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
-        $uploadedFiles = $request->getFiles();
-        $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
-        // $processRequest = eagarScagaire($processRequest);
-        #
-        try {
-            if (isset($processRequest['id'])) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //    ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //    ->where('id', $processRequest['id'])
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($processRequest['id'], $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $processRequest['id'])
-                //     ->dBdelete();
-                #
-            } elseif ($parameter !== NULL) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($parameter, $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->dBdelete();
-                #
-            } else {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->findAll();
-            };
-            $apiRespond = [
-                'status' => 'success',
-                'message' => 'API loading data (dados para carregamento da API)',
-                'date' => date('Y-m-d'),
-                'api' => [
-                    'version' => '1.0',
-                    'method' => isset($getMethod) ? $getMethod : 'unknown',
-                    'description' => 'API Description',
-                    'content_type' => 'application/x-www-form-urlencoded'
-                ],
-                // 'method' => '__METHOD__',
-                // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
-                'metadata' => [
-                    'page_title' => 'Application title',
-                    'getURI' => $this->uri->getSegments(),
-                    // Você pode adicionar campos comentados anteriormente se forem relevantes
-                    // 'method' => '__METHOD__',
-                    // 'function' => '__FUNCTION__',
-                ]
-            ];
-            $response = $this->response->setJSON($apiRespond, 201);
-        } catch (\Exception $e) {
-            $apiRespond = array(
-                'message' => array('danger' => $e->getMessage()),
-                'page_title' => 'Application title',
-                'getURI' => $this->uri->getSegments(),
-            );
-            // $this->returnFunction(array($e->getMessage()), 'danger',);
-            $response = $this->response->setJSON($apiRespond, 500);
-            if ($json == 1) {
-                return $response;
-                // return redirect()->back();
-                // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
-            } else {
-                return $response;
-                // return redirect()->back();
-                // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
-            }
-        }
+        exit('403 Forbidden - Directory access is forbidden.');
     }
 
     private function validtoken_csrf($token)
@@ -203,7 +96,7 @@ class LicitacaoEtapaApiController extends ResourceController
         $request = service('request');
         $getMethod = $request->getMethod();
         $getVar_page = $request->getVar('page');
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         // $uploadedFiles = $request->getFiles();
         $token_csrf = (isset($processRequest['token_csrf']) ? $processRequest['token_csrf'] : NULL);
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
@@ -234,7 +127,8 @@ class LicitacaoEtapaApiController extends ResourceController
                 }
             } else {
                 $this->returnMyFunction(['ERRO: Dados enviados inválidos'], 'danger');
-            };
+            }
+            ;
             $status = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('trouble') : ('success');
             $message = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? ('Erro - requisição que foi bem-formada mas não pôde ser seguida devido a erros semânticos.') : ('API loading data (dados para carregamento da API)');
             $cod_http = (!isset($processRequestSuccess) || $processRequestSuccess !== true) ? (422) : (201);
@@ -287,8 +181,8 @@ class LicitacaoEtapaApiController extends ResourceController
         }
     }
 
-    # route POST /www/qlikreact/licitacao/api/listar/(:any)
-    # route GET /www/qlikreact/licitacao/api/listar/(:any)
+    # route POST /www/qlikreact/licitacao_etapa/api/listar/(:any)
+    # route GET /www/qlikreact/licitacao_etapa/api/listar/(:any)
     # Informação sobre o controller
     # retorno do controller [JSON]
     public function dbRead($parameter = NULL)
@@ -296,33 +190,20 @@ class LicitacaoEtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         #
         try {
             if (isset($processRequest['id'])) {
-                // $dbResponse[] = $this->ModelResponse
-                //    ->where('id', $processRequest['id'])
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->selectBase($processRequest['id']);
             } elseif ($parameter !== NULL) {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->selectBase($parameter);
             } else {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->findAll();
-            };
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->selectBase();
+            }
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -335,7 +216,7 @@ class LicitacaoEtapaApiController extends ResourceController
                 ],
                 // 'method' => '__METHOD__',
                 // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
+                'result' => $dbResponse,
                 'metadata' => [
                     'page_title' => 'Application title',
                     'getURI' => $this->uri->getSegments(),
@@ -372,6 +253,97 @@ class LicitacaoEtapaApiController extends ResourceController
         }
     }
 
+    # route POST /www/qlikreact/licitacao_etapa/api/listar_licitacao/(:any)
+    # route GET /www/qlikreact/licitacao_etapa/api/listar_licitacao/(:any)
+    # Informação sobre o controller
+    # retorno do controller [JSON]
+    public function dbReadCurentBidding($parameter1 = NULL, $parameter2 = NULL)
+    {
+        # Parâmentros para receber um POST
+        $request = service('request');
+        $getMethod = $request->getMethod();
+        $processRequest = (array) $request->getVar();
+        $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
+        #
+        // myPrint($parameter1, $parameter2, true);
+        try {
+            if (
+                isset($processRequest['licitacao'])
+                && isset($processRequest['id'])
+            ) {
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->curentBidding($processRequest['licitacao'], $processRequest['id']);
+            } elseif (
+                isset($processRequest['licitacao'])
+            ) {
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->curentBidding($processRequest['licitacao']);
+            } elseif (
+                $parameter1 !== NULL
+                && $parameter2 == NULL
+            ) {
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->curentBidding($parameter1);
+            } elseif (
+                $parameter1 !== NULL
+                && $parameter2 !== NULL
+            ) {
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->curentBidding($parameter1, $parameter2);
+            } else {
+                // use App\Controllers\LicitacaoEtapaDbController;
+                $dbResponse = $this->LicitacaoEtapaDb->curentBidding();
+            }
+            $apiRespond = [
+                'status' => 'success',
+                'message' => 'API loading data (dados para carregamento da API)',
+                'date' => date('Y-m-d'),
+                'api' => [
+                    'version' => '1.0',
+                    'method' => $getMethod,
+                    'description' => 'API Description',
+                    'content_type' => 'application/x-www-form-urlencoded'
+                ],
+                // 'method' => '__METHOD__',
+                // 'function' => '__FUNCTION__',
+                'result' => $dbResponse,
+                'metadata' => [
+                    'page_title' => 'Application title',
+                    'getURI' => $this->uri->getSegments(),
+                    // Você pode adicionar campos comentados anteriormente se forem relevantes
+                    // 'method' => '__METHOD__',
+                    // 'function' => '__FUNCTION__',
+                ]
+            ];
+            $response = $this->response->setJSON($apiRespond, 201);
+        } catch (\Exception $e) {
+            $apiRespond = [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'date' => date('Y-m-d'),
+                'api' => [
+                    'version' => '1.0',
+                    'method' => $getMethod,
+                    'description' => 'API Criar Method',
+                    'content_type' => 'application/x-www-form-urlencoded'
+                ],
+                'metadata' => [
+                    'page_title' => 'ERRO - API Method',
+                    'getURI' => $this->uri->getSegments(),
+                ]
+            ];
+            $response = $this->response->setJSON($apiRespond, 500);
+        }
+        // exit('FIM');
+        if ($json == 1) {
+            return $response;
+            // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
+        } else {
+            return $response;
+            // return redirect()->back();
+        }
+    }
+
     # route POST /www/sigla/rota
     # route GET /www/sigla/rota
     # Informação sobre o controller
@@ -381,7 +353,7 @@ class LicitacaoEtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #
@@ -436,7 +408,7 @@ class LicitacaoEtapaApiController extends ResourceController
         # Parâmentros para receber um POST
         $request = service('request');
         $getMethod = $request->getMethod();
-        $processRequest = (array)$request->getVar();
+        $processRequest = (array) $request->getVar();
         $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
         // $processRequest = eagarScagaire($processRequest);
         #

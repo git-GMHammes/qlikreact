@@ -108,6 +108,12 @@ $routes->group('qlikreact', function ($routes) {
             $routes->get('listar/(:any)', 'LicitacaoEtapaApiController::dbRead/$1');
             $routes->post('listar', 'LicitacaoEtapaApiController::dbRead');
             $routes->post('listar/(:any)', 'LicitacaoEtapaApiController::dbRead/$1');
+            # www/qlikreact/licitacao_etapa/api/listar_licitacao/(:any)
+            $routes->get('listar_licitacao', 'LicitacaoEtapaApiController::dbReadCurentBidding');
+            $routes->get('listar_licitacao/(:segment)', 'LicitacaoEtapaApiController::dbReadCurentBidding/$1');
+            $routes->get('listar_licitacao/(:any)', 'LicitacaoEtapaApiController::dbReadCurentBidding/$1');
+            $routes->post('listar_licitacao', 'LicitacaoEtapaApiController::dbReadCurentBidding');
+            $routes->post('listar_licitacao/(:any)', 'LicitacaoEtapaApiController::dbReadCurentBidding/$1');
             # www/qlikreact/licitacao_etapa/api/atualizar/(:any)
             $routes->get('atualizar', 'LicitacaoEtapaApiController::create_update');
             $routes->get('atualizar/(:segment)', 'LicitacaoEtapaApiController::create_update/$1');

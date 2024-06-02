@@ -6,6 +6,8 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\LicitacaoModel;
 use App\Models\LicitacaoEtapaModel;
+use App\Controllers\LicitacaoDbController;
+use App\Controllers\EtapaDbController;
 // use App\Models\NomeModel;
 use Exception;
 
@@ -14,6 +16,8 @@ class LicitacaoApiController extends ResourceController
     use ResponseTrait;
     private $ModelLicitacao;
     private $ModelLicitacaoEtapa;
+    private $LicitacaoDb;
+    private $EtapaDb;
     private $dbFields;
     private $uri;
 
@@ -22,13 +26,9 @@ class LicitacaoApiController extends ResourceController
         // $this->ModelResponse = new NomeModel();
         $this->ModelLicitacao = new LicitacaoModel();
         $this->ModelLicitacaoEtapa = new LicitacaoEtapaModel();
+        $this->LicitacaoDb = new LicitacaoDbController();
+        $this->EtapaDb = new EtapaDbController();
         $this->uri = new \CodeIgniter\HTTP\URI(current_url());
-        // helper([
-        //'myPrint',
-        //'myDate',
-        //'myIdUFF',
-        //'myFake'
-        // ]);
     }
     #
     # route POST /www/sigla/rota
@@ -37,105 +37,7 @@ class LicitacaoApiController extends ResourceController
     # retorno do controller [JSON]
     public function index($parameter = NULL)
     {
-        # Parâmentros para receber um POST
-        $request = service('request');
-        $getMethod = $request->getMethod();
-        $getVar_page = $request->getVar('page');
-        $processRequest = (array) $request->getVar();
-        $uploadedFiles = $request->getFiles();
-        $json = isset($processRequest['json']) && $processRequest['json'] == 1 ? 1 : 0;
-        // $processRequest = eagarScagaire($processRequest);
-        #
-        try {
-            if (isset($processRequest['id'])) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //    ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //    ->where('id', $processRequest['id'])
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($processRequest['id'], $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $processRequest['id'])
-                //     ->dBdelete();
-                #
-            } elseif ($parameter !== NULL) {
-                # CRUD da Model
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->find();
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBupdate($parameter, $processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('id', $parameter)
-                //     ->dBdelete();
-                #
-            } else {
-                // $dbResponse[] = $this->ModelResponse
-                //     ->dBcreate($processRequest);
-                #
-                // $dbResponse[] = $this->ModelResponse
-                //     ->where('deleted_at', NULL)
-                //     ->orderBy('updated_at', 'asc')
-                //     ->dBread()
-                //     ->findAll();
-            }
-            ;
-            $apiRespond = [
-                'status' => 'success',
-                'message' => 'API loading data (dados para carregamento da API)',
-                'date' => date('Y-m-d'),
-                'api' => [
-                    'version' => '1.0',
-                    'method' => isset($getMethod) ? $getMethod : 'unknown',
-                    'description' => 'API Description',
-                    'content_type' => 'application/x-www-form-urlencoded'
-                ],
-                // 'method' => '__METHOD__',
-                // 'function' => '__FUNCTION__',
-                'result' => $processRequest,
-                'metadata' => [
-                    'page_title' => 'Application title',
-                    'getURI' => $this->uri->getSegments(),
-                    // Você pode adicionar campos comentados anteriormente se forem relevantes
-                    // 'method' => '__METHOD__',
-                    // 'function' => '__FUNCTION__',
-                ]
-            ];
-            $response = $this->response->setJSON($apiRespond, 201);
-        } catch (\Exception $e) {
-            $apiRespond = array(
-                'message' => array('danger' => $e->getMessage()),
-                'page_title' => 'Application title',
-                'getURI' => $this->uri->getSegments(),
-            );
-            // $this->returnFunction(array($e->getMessage()), 'danger',);
-            $response = $this->response->setJSON($apiRespond, 500);
-            if ($json == 1) {
-                return $response;
-                // return redirect()->back();
-                // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
-            } else {
-                return $response;
-                // return redirect()->back();
-                // return redirect()->to('project/endpoint/parameter/parameter/' . $parameter);
-            }
-        }
+        exit('403 Forbidden - Directory access is forbidden.');
     }
 
     private function validtoken_csrf($token)
@@ -323,7 +225,7 @@ class LicitacaoApiController extends ResourceController
                 ->dbRead()
                 ->orderBy('priority', 'asc')
                 ->findAll();
-            
+
             $apiRespond = [
                 'status' => 'success',
                 'message' => 'API loading data (dados para carregamento da API)',
@@ -380,133 +282,14 @@ class LicitacaoApiController extends ResourceController
         #
         try {
             if (isset($processRequest['id'])) {
-                $dbResponse['listar_licitacao'] = $this->ModelLicitacao
-                    ->where('pk_bidding', $processRequest['pk_bidding'])
-                    ->where('deleted_at', NULL)
-                    ->orderBy('priority', 'asc')
-                    ->dBread()
-                    ->find();
-                #
+                // use App\Controllers\LicitacaoDbController;
+                $dbResponse['listar_licitacao'] = $this->LicitacaoDb->selectBase($processRequest['pk_bidding']);
             } elseif ($parameter !== NULL) {
-                $dbResponse['listar_licitacao'] = $this->ModelLicitacao
-                    ->where('pk_bidding', $parameter)
-                    ->where('deleted_at', NULL)
-                    ->orderBy('priority', 'asc')
-                    ->dBread()
-                    ->find();
-                #
+                // use App\Controllers\LicitacaoDbController;
+                $dbResponse['listar_licitacao'] = $this->LicitacaoDb->selectBase($parameter);
             } else {
-                $dbResponse['listar_licitacao'] = $this->ModelLicitacao
-                    ->where('deleted_at', NULL)
-                    ->orderBy('priority', 'asc')
-                    ->dBread()
-                    ->findAll();
-            }
-            ;
-            foreach ($dbResponse['listar_licitacao'] as $key_dbResponse => $value_dbResponse) {
-                $pk_bidding = isset($value_dbResponse['pk_bidding']) ? ($value_dbResponse['pk_bidding']) : (NULL);
-                // myPrint($pk_bidding, 'src\app\Controllers\AcquisitionProcessManagementApiController.php', true);
-                if ($pk_bidding !== NULL) {
-                    $ind_dead_line = 0;
-                    $ind_made_true = 0;
-                    $ind_made_false = 0;
-                    $etapa_licitacao = $this->ModelLicitacaoEtapa
-                        ->where('pk_bidding', $pk_bidding)
-                        ->where('deleted_at', NULL)
-                        ->orderBy('orderc', 'asc')
-                        ->dBread()
-                        ->findAll();
-                    foreach ($etapa_licitacao as $key_bidding => $value_bidding) {
-                        // myPrint($value_bidding, '$value_bidding', true);
-                        if ($value_bidding['pk_bidding'] === 'qliksensedss_') {
-                            // myPrint($value_bidding, '$value_bidding', true);
-                        }
-                        if (
-                            $value_bidding['made'] == NULL
-                        ) {
-                            $ind_dead_line++;
-                        }
-                        if (
-                            $value_bidding['made'] == 'Y'
-                        ) {
-                            $ind_made_true++;
-                        }
-                        if (
-                            $value_bidding['made'] == 'N'
-                        ) {
-                            $ind_made_false++;
-                        }
-                    }
-                    // exit();
-                    // myPrint('Licitação: ', $pk_bidding, true);
-                    // myPrint('Sem Prazo', $ind_dead_line, true);
-                    // myPrint('Sem Atraso', $ind_made_true, true);
-                    // myPrint('Com atraso', $ind_made_false, true);
-                    // #
-                    if (
-                        $ind_dead_line > 0
-                        && $ind_made_true === 0
-                        && $ind_made_false === 0
-                    ) {
-                        // myPrint('[][][]-Estou NEUTRO-[][][]', '', true);
-                        // myPrint('', '--------------------', true);
-                        $dbResponse['carinha'][] = array(
-                            'pk_bidding' => $pk_bidding,
-                            'sem_prazo' => $ind_dead_line,
-                            'sem_atraso' => $ind_made_true,
-                            'com_atraso' => $ind_made_false,
-                            'emoji' => 'emoji_neutral_fill'
-                        );
-                        $dbUpdate = [
-                            'not_fulfilled' => 'Y'
-                        ];
-                        $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
-                        // exit('BATEU no NEUTRO');
-                    } elseif (
-                        $ind_made_false > 0
-                    ) {
-                        // myPrint('[][][]-EM ATRASO-[][][]', '', true);
-                        // myPrint('', '--------------------', true);
-                        $dbResponse['carinha'][] = array(
-                            'pk_bidding' => $pk_bidding,
-                            'sem_prazo' => $ind_dead_line,
-                            'sem_atraso' => $ind_made_true,
-                            'com_atraso' => $ind_made_false,
-                            'emoji' => 'emoji_frown_fill'
-                        );
-                        $dbUpdate = [
-                            'not_fulfilled' => 'N'
-                        ];
-                        $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
-                    } elseif (
-                        $ind_made_true > 0
-                        && $ind_made_false === 0
-                    ) {
-                        // myPrint('[][][]-ENTREGUE EM DIA-[][][]', '', true);
-                        // myPrint('', '--------------------', true);
-                        $dbResponse['carinha'][] = array(
-                            'pk_bidding' => $pk_bidding,
-                            'sem_prazo' => $ind_dead_line,
-                            'sem_atraso' => $ind_made_true,
-                            'com_atraso' => $ind_made_false,
-                            'emoji' => 'emoji_smile_fill'
-                        );
-                        $dbUpdate = [
-                            'not_fulfilled' => 'Y'
-                        ];
-                        $this->ModelLicitacao->dbUpdate($pk_bidding, $dbUpdate);
-                    } else {
-                        // myPrint('[][][]-CONFUSO-[][][]', '', true);
-                        // myPrint('', '--------------------', true);
-                        $dbResponse['carinha'][] = array(
-                            'pk_bidding' => $pk_bidding,
-                            'sem_prazo' => $ind_dead_line,
-                            'sem_atraso' => $ind_made_true,
-                            'com_atraso' => $ind_made_false,
-                            'emoji' => 'emoji_smile_fill'
-                        );
-                    }
-                }
+                // use App\Controllers\LicitacaoDbController;
+                $dbResponse['listar_licitacao'] = $this->LicitacaoDb->selectBase();
             }
             // exit();
             $apiRespond = [

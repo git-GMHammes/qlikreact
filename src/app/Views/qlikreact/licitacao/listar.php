@@ -31,7 +31,6 @@ $parametros_backend = array(
 
         // Variáveis do React
         const [processos, setProcessos] = React.useState([]);
-        const [carinhas, setCarinhas] = React.useState([]);
         const [loading, setLoading] = React.useState(true);
         const [error, setError] = React.useState(null);
         const [dragIndex, setDragIndex] = React.useState(-1);
@@ -46,7 +45,6 @@ $parametros_backend = array(
                 })
                 .then(data => {
                     setProcessos(data.result.listar_licitacao);
-                    setCarinhas(data.result.carinha);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -54,27 +52,6 @@ $parametros_backend = array(
                     setLoading(false);
                 });
         }, []);
-
-        const getEmojiForBidding = (pk_bidding) => {
-            const carinha = carinhas.find(car => car.pk_bidding === pk_bidding);
-            // Verifica se uma carinha foi encontrada.
-            if (!carinha) {
-                return 'Desconhecido';
-            }
-            return getEmoji(carinha.emoji);
-        };
-        const getEmoji = (emojiType) => {
-            switch (emojiType) {
-                case 'emoji_smile_fill':
-                    return <i className="bi bi-emoji-smile-fill" style={{ color: 'green' }}></i>;
-                case 'emoji_neutral_fill':
-                    return <i className="bi bi-emoji-neutral-fill" style={{ color: 'grey' }}></i>;
-                case 'emoji_frown_fill':
-                    return <i className="bi bi-emoji-frown-fill" style={{ color: 'red' }}></i>;
-                default:
-                    return 'Desconhecido';
-            }
-        };
 
         const onDragStart = (e, index) => {
             setDragIndex(index);
@@ -152,7 +129,6 @@ $parametros_backend = array(
                                 <th>ID</th>
                                 <th>Chave da Licitação</th>
                                 <th>No Prazo</th>
-                                <th>Emoji</th>
                                 <th>Processo Eletrônico SEI</th>
                             </tr>
                         </thead>
@@ -172,7 +148,6 @@ $parametros_backend = array(
                                     <td>{index + 1}</td>
                                     <td>{processo.bidding}</td>
                                     <td>{processo.not_fulfilled === 'Y' ? 'Sim' : 'Não'}</td>
-                                    <td>{getEmojiForBidding(processo.pk_bidding)}</td>
                                     <td>{processo.sei}</td>
                                 </tr>
                             ))}
