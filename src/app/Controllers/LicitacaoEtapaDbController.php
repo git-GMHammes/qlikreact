@@ -24,6 +24,184 @@ class LicitacaoEtapaDbController extends BaseController
         exit('403 Forbidden - Directory access is forbidden.');
     }
 
+    private function setSmile_made($pk, $start, $deadline, $end)
+    {
+        $start = normatizaData($start);
+        $deadline = normatizaData($deadline);
+        $end = normatizaData($end);
+        if (
+            $end == NULL
+            && $start == NULL
+            && $deadline == NULL
+        ) {
+            $dbUpdate = [
+                'made' => NULL
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == $start
+            && $start == $deadline
+            && $deadline == $end
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline == NULL
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $deadline < date('Y-m-d')
+        ) {
+            $dbUpdate = [
+                'made' => 'N'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $start == $deadline
+            && $deadline < date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $deadline > date('Y-m-d')
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $deadline > date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'N'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $start == $deadline
+            // && $deadline < date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $deadline < date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start == NULL
+            && $deadline !== NULL
+            && $deadline < date('Y-m-d')
+        ) {
+            $dbUpdate = [
+                'made' => 'N'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end == NULL
+            && $start == NULL
+            && $deadline !== NULL
+            && $deadline > date('Y-m-d')
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ]; #
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start !== NULL
+            && $deadline !== NULL
+            && $deadline == $end
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start == NULL
+            && $deadline !== NULL
+            && $end == $deadline
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start == NULL
+            && $deadline == NULL
+            && $end < date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start !== NULL
+            && $deadline == NULL
+            // && $end < date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d'))))
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start == NULL
+            && $deadline !== NULL
+            && $deadline > $end
+        ) {
+            $dbUpdate = [
+                'made' => 'Y'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        } elseif (
+            $end !== NULL
+            && $start == NULL
+            && $deadline !== NULL
+            && $deadline < $end
+        ) {
+            $dbUpdate = [
+                'made' => 'N'
+            ];
+            $this->ModelLicitacaoEtapa->dbUpdate($pk, $dbUpdate);
+        }
+        return (NULL);
+    }
+
     # use App\Controllers\LicitacaoEtapaDbController;
     # private $EtapaDb;
     # $this->EtapaDb = new LicitacaoEtapaDbController();
@@ -78,7 +256,11 @@ class LicitacaoEtapaDbController extends BaseController
         }
         return $dbResponse;
     }
-
+    
+    # use App\Controllers\LicitacaoEtapaDbController;
+    # private $EtapaDb;
+    # $this->EtapaDb = new LicitacaoEtapaDbController();
+    # $this->EtapaDb->curentBidding();
     public function curentBidding($parameter1 = NULL, $parameter2 = NULL, $parameter3 = 1000)
     {
         // myPrint($parameter1, $parameter2, true);
@@ -96,6 +278,25 @@ class LicitacaoEtapaDbController extends BaseController
                     ->limit($parameter3)
                     ->dBread()
                     ->findAll();
+                #
+                foreach ($dbResponse as $key_dbResponse => $value_dbResponse) {
+                    // myPrint($value_dbResponse, '', true);
+                    $pk = isset($value_dbResponse['ID']) ? ($value_dbResponse['ID']) : ('NULL');
+                    $start = isset($value_dbResponse['date_start']) ? ($value_dbResponse['date_start']) : (NULL);
+                    $deadline = isset($value_dbResponse['deadline']) ? ($value_dbResponse['deadline']) : (NULL);
+                    $end = isset($value_dbResponse['date_end']) ? ($value_dbResponse['date_end']) : (NULL);
+                    $this->setSmile_made($pk, $start, $deadline, $end);
+                }
+                $dbResponse = $this
+                    ->ModelLicitacaoEtapa
+                    ->where('pk_bidding', $parameter1)
+                    ->where('deleted_at', NULL)
+                    ->orderBy('orderc', 'asc')
+                    ->limit($parameter3)
+                    ->dBread()
+                    ->findAll();
+                #
+                // exit('src\app\Controllers\LicitacaoEtapaDbController.php');
             } else if (
                 $parameter1 !== NULL
                 && $parameter2 !== NULL

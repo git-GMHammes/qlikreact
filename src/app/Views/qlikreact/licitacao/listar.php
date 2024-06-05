@@ -2,6 +2,7 @@
 $parametros_backend = array(
     'route_api_001' => 'index.php/qlikreact/licitacao/api/listar',
     'route_api_002' => 'index.php/qlikreact/licitacao/api/ordem',
+    'route_api_003' => 'index.php/qlikreact/licitacao_etapa/api/listar_licitacao',
     'DEBUG_MY_PRINT' => false,
     'request_scheme' => $_SERVER['REQUEST_SCHEME'],
     'server_name' => $_SERVER['SERVER_NAME'],
@@ -22,15 +23,19 @@ $parametros_backend = array(
         const server_port = parametros.server_port;
         const route_api_001 = parametros.route_api_001;
         const route_api_002 = parametros.route_api_002;
+        const route_api_003 = parametros.route_api_003;
         const getURI = parametros.getURI;
         const debugMyPrint = parametros.DEBUG_MY_PRINT;
         const url_api_001 = `${request_scheme}://${server_name}:${server_port}/${route_api_001}`;
         console.log("URL API 001:", url_api_001);
-        const url_post_001 = `${request_scheme}://${server_name}:${server_port}/${route_api_002}`;
-        console.log("URL POST 001:", url_post_001);
+        const url_post_002 = `${request_scheme}://${server_name}:${server_port}/${route_api_002}`;
+        console.log("URL POST 002:", url_post_002);
+        const url_post_003 = `${request_scheme}://${server_name}:${server_port}/${route_api_003}`;
+        console.log("URL POST 003:", url_post_003);
 
         // Variáveis do React
         const [processos, setProcessos] = React.useState([]);
+        const [detalhesLicitacao, setDetalhesLicitacao] = React.useState({});
         const [loading, setLoading] = React.useState(true);
         const [error, setError] = React.useState(null);
         const [dragIndex, setDragIndex] = React.useState(-1);
@@ -46,6 +51,10 @@ $parametros_backend = array(
                 .then(data => {
                     setProcessos(data.result.listar_licitacao);
                     setLoading(false);
+                    // Após carregar os processos, busca os detalhes para cada licitação
+                    data.result.listar_licitacao.forEach(licitacao => {
+                        fetchDetails(licitacao.pk_bidding);
+                    });
                 })
                 .catch(error => {
                     setError(error.toString());
@@ -53,19 +62,53 @@ $parametros_backend = array(
                 });
         }, []);
 
+        const fetchDetails = (pkBidding) => {
+            const urlDetails = `${url_post_003}/${pkBidding}`;
+            fetch(urlDetails)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok (${response.status})`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const statusMade = {};
+                    data.result.forEach(item => {
+                        statusMade[item.ID] = item.made;
+                    });
+                    setDetalhesLicitacao(prev => ({ ...prev, [pkBidding]: statusMade }));
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar detalhes da licitação:', error);
+                });
+        };
+
+        function renderStatusIcon(statusMade) {
+            if (!statusMade) return null; 
+            return Object.values(statusMade).map((made, idx) => (
+                <span key={idx}>
+                    {made === 'Y' ? <button type="button" className="btn btn-outline-success"><i className="bi bi-emoji-smile-fill"></i></button> :
+                        made === 'N' ? <button type="button" className="btn btn-outline-danger"><i className="bi bi-emoji-frown-fill"></i></button> :
+                            <button type="button" className="btn btn-outline-warning"><i className="bi bi-emoji-neutral-fill"></i></button>}
+                </span>
+            ));
+        }
+
         const onDragStart = (e, index) => {
             setDragIndex(index);
         };
+
         const onDragOver = (e) => {
             e.preventDefault();
         };
+
         const onDrop = (e, dropIndex) => {
-            e.preventDefault();  // Previne o comportamento padrão para permitir a soltura.
-            const updatedProcessos = [...processos];  // Cria uma cópia do array de processos.
-            const draggedItem = updatedProcessos.splice(dragIndex, 1)[0];  // Remove o item arrastado do seu local original.
-            updatedProcessos.splice(dropIndex, 0, draggedItem);  // Insere o item arrastado no novo índice.
-            setProcessos(updatedProcessos);  // Atualiza o estado com a nova ordem dos processos.
-            submitNewOrder(updatedProcessos);  // Envia a nova ordem dos processos para processamento ou salvamento.
+            e.preventDefault();
+            const updatedProcessos = [...processos];
+            const draggedItem = updatedProcessos.splice(dragIndex, 1)[0];
+            updatedProcessos.splice(dropIndex, 0, draggedItem);
+            setProcessos(updatedProcessos);
+            submitNewOrder(updatedProcessos);
         };
 
         const submitNewOrder = (updatedProcessos) => {
@@ -74,10 +117,10 @@ $parametros_backend = array(
                 formData.append('setFormOrder[]', `${index + 1}|${processo.pk_bidding}`);
             });
             fetch(url_post_001, {
-                method: 'POST', // Método HTTP.
-                body: formData, // Corpo da requisição, contendo os dados dos processos.
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' } // Cabeçalho informando o tipo de conteúdo.
-            }).then(response => response.text()) // Converte a resposta para texto.
+                method: 'POST',
+                body: formData,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(response => response.text())
                 .then(data => {
                     if (debugMyPrint) {
                         console.log("Submit response V2:", data.result);
@@ -129,6 +172,7 @@ $parametros_backend = array(
                                 <th>ID</th>
                                 <th>Chave da Licitação</th>
                                 <th>No Prazo</th>
+                                <th>Status</th>
                                 <th>Processo Eletrônico SEI</th>
                             </tr>
                         </thead>
@@ -148,6 +192,7 @@ $parametros_backend = array(
                                     <td>{index + 1}</td>
                                     <td>{processo.bidding}</td>
                                     <td>{processo.not_fulfilled === 'Y' ? 'Sim' : 'Não'}</td>
+                                    <td>{renderStatusIcon(detalhesLicitacao[processo.pk_bidding])}</td>
                                     <td>{processo.sei}</td>
                                 </tr>
                             ))}

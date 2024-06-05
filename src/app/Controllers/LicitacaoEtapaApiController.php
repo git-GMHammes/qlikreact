@@ -316,7 +316,7 @@ class LicitacaoEtapaApiController extends ResourceController
                 ]
             ];
             $response = $this->response->setJSON($apiRespond, 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $apiRespond = [
                 'status' => 'error',
                 'message' => $e->getMessage(),
