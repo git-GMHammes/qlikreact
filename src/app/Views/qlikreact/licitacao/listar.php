@@ -18,6 +18,7 @@ $parametros_backend = array(
     const AppListaLicitacao = () => {
         // Variáveis recebidas do Backend
         const parametros = JSON.parse(document.querySelector('.App_listar_licitacao').getAttribute('data-result'));
+        // Prepara as Variáveis do REACT recebidas pelo BACKEND
         const request_scheme = parametros.request_scheme;
         const server_name = parametros.server_name;
         const server_port = parametros.server_port;
@@ -26,16 +27,16 @@ $parametros_backend = array(
         const route_api_003 = parametros.route_api_003;
         const getURI = parametros.getURI;
         const debugMyPrint = parametros.DEBUG_MY_PRINT;
+        // Monta as APIs
         const url_api_001 = `${request_scheme}://${server_name}:${server_port}/${route_api_001}`;
         console.log("URL API 001:", url_api_001);
         const url_post_002 = `${request_scheme}://${server_name}:${server_port}/${route_api_002}`;
         console.log("URL POST 002:", url_post_002);
         const url_post_003 = `${request_scheme}://${server_name}:${server_port}/${route_api_003}`;
         console.log("URL POST 003:", url_post_003);
-
         // Variáveis do React
         const [processos, setProcessos] = React.useState([]);
-        const [detalhesLicitacao, setDetalhesLicitacao] = React.useState({});
+        const [smilesLicitacao, setSmilesLicitacao] = React.useState({});
         const [loading, setLoading] = React.useState(true);
         const [error, setError] = React.useState(null);
         const [dragIndex, setDragIndex] = React.useState(-1);
@@ -51,7 +52,7 @@ $parametros_backend = array(
                 .then(data => {
                     setProcessos(data.result.listar_licitacao);
                     setLoading(false);
-                    // Após carregar os processos, busca os detalhes para cada licitação
+                    // Após carregar os processos, busca os smiles para cada licitação
                     data.result.listar_licitacao.forEach(licitacao => {
                         fetchDetails(licitacao.pk_bidding);
                     });
@@ -63,8 +64,8 @@ $parametros_backend = array(
         }, []);
 
         const fetchDetails = (pkBidding) => {
-            const urlDetails = `${url_post_003}/${pkBidding}`;
-            fetch(urlDetails)
+            const urlSmiles = `${url_post_003}/${pkBidding}`;
+            fetch(urlSmiles)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`Network response was not ok (${response.status})`);
@@ -76,10 +77,10 @@ $parametros_backend = array(
                     data.result.forEach(item => {
                         statusMade[item.ID] = item.made;
                     });
-                    setDetalhesLicitacao(prev => ({ ...prev, [pkBidding]: statusMade }));
+                    setSmilesLicitacao(prev => ({ ...prev, [pkBidding]: statusMade }));
                 })
                 .catch(error => {
-                    console.error('Erro ao buscar detalhes da licitação:', error);
+                    console.error('Erro ao buscar smiles da licitação:', error);
                 });
         };
 
@@ -192,7 +193,7 @@ $parametros_backend = array(
                                     <td>{index + 1}</td>
                                     <td>{processo.bidding}</td>
                                     <td>{processo.not_fulfilled === 'Y' ? 'Sim' : 'Não'}</td>
-                                    <td>{renderStatusIcon(detalhesLicitacao[processo.pk_bidding])}</td>
+                                    <td>{renderStatusIcon(smilesLicitacao[processo.pk_bidding])}</td>
                                     <td>{processo.sei}</td>
                                 </tr>
                             ))}
